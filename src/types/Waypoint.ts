@@ -1,7 +1,7 @@
-type LatLng = [number, number];
+type LatLon = [number, number];
 
 export type Waypoint = {
-  coord: LatLng;
+  coord: LatLon;
 
   // TODO: calculate properties and make them required later
   distanceKm?: number;

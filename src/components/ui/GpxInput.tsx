@@ -1,4 +1,5 @@
 import { parseGPX } from "@we-gold/gpxjs";
+import { createWaypoints } from "../../helpers/createWaypoints";
 
 export function GpxInput() {
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -18,7 +19,7 @@ export function GpxInput() {
 
     const points = tracks?.map((track) =>
       track.points.map((point) => {
-        return { lat: point.latitude, lng: point.longitude };
+        return { lat: point.latitude, lon: point.longitude };
       }),
     );
 
@@ -26,6 +27,10 @@ export function GpxInput() {
 
     console.log(points);
     console.log(distance);
+
+    const waypoints = createWaypoints(points[0]);
+
+    console.log(waypoints);
   }
 
   return (
