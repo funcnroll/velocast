@@ -18,9 +18,6 @@ export function processGpx(gpxText: string) {
 
   const distance = track.distance.total;
 
-  console.log(points);
-  console.log(distance);
-
   const waypoints = createWaypoints(points);
 
   return { waypoints, distance };
