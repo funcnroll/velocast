@@ -3,8 +3,6 @@ import GpxLayer from "./components/ui/GpxLayer";
 import GpxInput from "./components/ui/GpxInput";
 
 export default function App() {
-  // const [lat, lng];
-
   return (
     <div className="flex h-screen w-screen bg-zinc-900">
       <div className="flex-1">
