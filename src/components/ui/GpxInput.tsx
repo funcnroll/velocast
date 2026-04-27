@@ -1,5 +1,4 @@
-import { parseGPX } from "@we-gold/gpxjs";
-import { createWaypoints } from "../../helpers/createWaypoints";
+import { processGpx } from "../../helpers/processGpx";
 
 export function GpxInput() {
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -9,28 +8,10 @@ export function GpxInput() {
 
     const gpxText = await file.text();
 
-    const [parsedFile, error] = parseGPX(gpxText);
-
-    if (error) console.error(error);
-
-    console.log(parsedFile);
-
-    const tracks = parsedFile?.tracks;
-
-    const points = tracks?.map((track) =>
-      track.points.map((point) => {
-        return { lat: point.latitude, lon: point.longitude };
-      }),
-    );
-
-    const distance = tracks?.map((track) => track.distance.total);
-
-    console.log(points);
-    console.log(distance);
-
-    const waypoints = createWaypoints(points[0]);
+    const { waypoints, distance } = processGpx(gpxText);
 
     console.log(waypoints);
+    console.log(distance);
   }
 
   return (
