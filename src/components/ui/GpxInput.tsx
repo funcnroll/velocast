@@ -13,8 +13,6 @@ export function GpxInput() {
 
     const line = lineString(waypoints.map((wp) => wp.coord));
 
-    console.log(line);
-
     let currentDistanceinKm = 0;
     const gpxDistanceInKm = distance / 1000;
     const weatherFetchPoints = [];
