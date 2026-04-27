@@ -11,6 +11,7 @@ Upload a GPX file, set your speed and departure time, and see the weather condit
 - Turf.js
 - Open-Meteo API
 - TanStack Query
+- Gpx.js
 
 ## Status
 
