@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "@types/geojson": "^7946.0.16",
     "@we-gold/gpxjs": "^1.1.0",
     "leaflet": "^1.9.4",
     "leaflet-gpx": "^2.2.0",
