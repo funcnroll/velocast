@@ -1,3 +1,4 @@
+import { useEffect, useMemo } from "react";
 import { useRoute } from "../../contexts/RouteContext";
 
 function DistanceCalculator({
@@ -7,25 +8,22 @@ function DistanceCalculator({
   departureTime: Date;
   speed: number;
 }) {
-  const { distance, weatherFetchPoints } = useRoute();
+  const { distance, weatherFetchPoints, setEtaArr } = useRoute();
 
   console.log(distance, weatherFetchPoints);
 
-  const distanceToPointInKmArr = [] as number[];
+  useEffect(() => {
+    if (!weatherFetchPoints.length || !speed) return;
 
-  weatherFetchPoints.forEach((_, i) => {
-    distanceToPointInKmArr.push(i * 5);
-    console.log(distanceToPointInKmArr);
-  });
-
-  if (distanceToPointInKmArr)
-    distanceToPointInKmArr.forEach((distanceToPoint) => {
-      const hoursToArrive = distanceToPoint / speed;
-      // convert hours to milliseconds and add to departure time
+    const etaArr: Date[] = weatherFetchPoints.map((_, i) => {
+      const distanceKm = i * 5;
+      const hoursToArrive = distanceKm / speed;
       const etaMs = departureTime.getTime() + hoursToArrive * 60 * 60 * 1000;
-      const eta = new Date(etaMs);
-      console.log(eta);
+      return new Date(etaMs);
     });
+
+    setEtaArr(etaArr);
+  }, [weatherFetchPoints, speed, departureTime, setEtaArr]);
 
   return <div>You will arrive at your destination at:</div>;
 }
