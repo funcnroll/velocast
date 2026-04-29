@@ -2,15 +2,10 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import GpxLayer from "./components/ui/GpxLayer";
 import GpxInput from "./components/ui/GpxInput";
 import DepartureTime from "./components/ui/DepartureTime";
-import { useState } from "react";
 import SpeedInput from "./components/ui/SpeedInput";
 import { RouteProvider } from "./contexts/RouteContext";
-import DistanceCalculator from "./components/ui/DistanceCalculator";
 
 export default function App() {
-  const [departureTime, setDepartureTime] = useState<Date>(new Date());
-  const [speed, setSpeed] = useState<number>(0);
-
   return (
     <RouteProvider>
       <div className="flex h-screen w-screen bg-zinc-900">
@@ -29,15 +24,8 @@ export default function App() {
 
         <div className="w-80 bg-zinc-800 border-l border-zinc-700 p-4 text-white">
           <GpxInput />
-          <DepartureTime setDepartureTime={setDepartureTime} />
-          <SpeedInput
-            setSpeed={setSpeed}
-            speed={speed}
-          />
-          <DistanceCalculator
-            departureTime={departureTime}
-            speed={speed}
-          />
+          <DepartureTime />
+          <SpeedInput />
         </div>
       </div>
     </RouteProvider>

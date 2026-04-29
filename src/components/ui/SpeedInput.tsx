@@ -1,4 +1,8 @@
-function SpeedInput({ setSpeed, speed }) {
+import { useRoute } from "../../contexts/RouteContext";
+
+function SpeedInput() {
+  const { setSpeed, speed } = useRoute();
+
   return (
     <div>
       <input

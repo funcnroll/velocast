@@ -1,4 +1,8 @@
-function DepartureTime({ setDepartureTime }) {
+import { useRoute } from "../../contexts/RouteContext";
+
+function DepartureTime() {
+  const { setDepartureTime } = useRoute();
+
   const now = new Date();
   const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
 

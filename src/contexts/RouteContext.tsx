@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useMemo } from "react";
 import type { Waypoint } from "../types/Waypoint";
 
 type RouteContextType = {
@@ -7,33 +7,55 @@ type RouteContextType = {
   setWeatherFetchPoints: (points: any[]) => void;
   distance: number;
   setDistance: (distance: number) => void;
-  etaArr: Date[];
-  setEtaArr: (etaArr: Waypoint[]) => void;
+  etaArr: Waypoint[];
+  departureTime: Date;
+  setDepartureTime: (date: Date) => void;
+  speed: number;
+  setSpeed: (speed: number) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
 
 export function RouteProvider({ children }: { children: React.ReactNode }) {
-  const [weatherFetchPoints, setWeatherFetchPoints] = useState([]);
+  const [weatherFetchPoints, setWeatherFetchPoints] = useState<any[]>([]);
   const [distance, setDistance] = useState(0);
-  const [etaArr, setEtaArr] = useState([] as Date[]);
+  const [departureTime, setDepartureTime] = useState<Date>(new Date());
+  const [speed, setSpeed] = useState<number>(0);
 
-  // TODO: properly centralise logic as needed - not as prop drilling AND using a route
+  const etaArr = useMemo(() => {
+    if (!weatherFetchPoints.length || !speed) return [];
+
+    return weatherFetchPoints.map((point, i) => {
+      const coords = point.geometry.coordinates as [number, number];
+      const distanceKm = i * 5;
+      const hoursToArrive = distanceKm / speed;
+
+      // calculate eta by adding hoursToArrive to departureTime
+      const etaMs = departureTime.getTime() + hoursToArrive * 60 * 60 * 1000;
+
+      return { coord: [...coords], eta: new Date(etaMs) };
+    });
+  }, [departureTime, speed, weatherFetchPoints]);
+
   return (
     <RouteContext
       value={{
         weatherFetchPoints,
         setWeatherFetchPoints,
-        etaArr,
-        setEtaArr,
         distance,
         setDistance,
+        etaArr,
+        departureTime,
+        setDepartureTime,
+        speed,
+        setSpeed,
       }}
     >
       {children}
     </RouteContext>
   );
 }
+
 export function useRoute() {
   const context = useContext(RouteContext);
   if (!context) throw new Error("useRoute must be used within a RouteProvider");
