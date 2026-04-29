@@ -1,11 +1,11 @@
-type LatLon = [number, number];
+export type LatLon = [number, number];
 
 export type Waypoint = {
   coord: LatLon;
 
   // TODO: calculate properties and make them required later
   distanceKm?: number;
-  ETA?: Date;
+  eta?: Date;
 
   weather?: {
     windSpeedkmH: number;

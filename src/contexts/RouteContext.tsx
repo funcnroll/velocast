@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import type { Waypoint } from "../types/Waypoint";
 
 type RouteContextType = {
   // TODO: type this properly
@@ -7,7 +8,7 @@ type RouteContextType = {
   distance: number;
   setDistance: (distance: number) => void;
   etaArr: Date[];
-  setEtaArr: (etaArr: Date[]) => void;
+  setEtaArr: (etaArr: Waypoint[]) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
