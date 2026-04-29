@@ -4,6 +4,7 @@ import GpxInput from "./components/ui/GpxInput";
 import DepartureTime from "./components/ui/DepartureTime";
 import SpeedInput from "./components/ui/SpeedInput";
 import { RouteProvider } from "./contexts/RouteContext";
+import ShowWeather from "./components/ui/ShowWeather";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <GpxInput />
           <DepartureTime />
           <SpeedInput />
+          <ShowWeather />
         </div>
       </div>
     </RouteProvider>

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "@tanstack/react-query": "^5.100.6",
     "@turf/turf": "^7.3.5",
     "@types/geojson": "^7946.0.16",
     "@we-gold/gpxjs": "^1.1.0",
