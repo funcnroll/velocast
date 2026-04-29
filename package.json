@@ -16,6 +16,7 @@
     "@types/geojson": "^7946.0.16",
     "@we-gold/gpxjs": "^1.1.0",
     "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "leaflet": "^1.9.4",
     "leaflet-gpx": "^2.2.0",
     "react": "^19.2.5",
