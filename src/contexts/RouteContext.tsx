@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useMemo } from "react";
 import type { Waypoint } from "../types/Waypoint";
+import type { RiderProfileType } from "../types/RiderProfileType";
 
 type RouteContextType = {
   // TODO: type this properly
@@ -12,6 +13,8 @@ type RouteContextType = {
   setDepartureTime: (date: Date) => void;
   speed: number;
   setSpeed: (speed: number) => void;
+  riderProfile: RiderProfileType;
+  setRiderProfile: (profile: RiderProfileType) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
@@ -21,6 +24,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [distance, setDistance] = useState(0);
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
   const [speed, setSpeed] = useState<number>(0);
+  const [riderProfile, setRiderProfile] = useState<string>("casual");
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !speed) return [];
@@ -49,6 +53,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setDepartureTime,
         speed,
         setSpeed,
+        riderProfile,
+        setRiderProfile,
       }}
     >
       {children}

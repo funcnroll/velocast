@@ -6,6 +6,7 @@ import SpeedInput from "./components/ui/SpeedInput";
 import { RouteProvider } from "./contexts/RouteContext";
 import ShowWeather from "./components/ui/ShowWeather";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import RiderProfile from "./components/ui/RiderProfile";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ export default function App() {
           <div className="w-80 bg-zinc-800 border-l border-zinc-700 p-4 text-white">
             <GpxInput />
             <DepartureTime />
+            <RiderProfile />
             <SpeedInput />
             <ShowWeather />
           </div>
