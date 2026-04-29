@@ -5,8 +5,6 @@ import { useQueries } from "@tanstack/react-query";
 function ShowWeather() {
   const { etaArr } = useRoute();
 
-  console.log(etaArr);
-
   const results = useQueries({
     queries: etaArr.map((waypoint) => ({
       queryKey: [
@@ -25,7 +23,7 @@ function ShowWeather() {
     })),
   });
 
-  console.log(results);
+  console.log(results.map((result) => result.data));
   return <div></div>;
 }
 
