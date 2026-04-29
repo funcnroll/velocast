@@ -1,7 +1,11 @@
+import { useRoute } from "../../contexts/RouteContext";
+import { parseDistanceToFetchPoints } from "../../helpers/parseDistanceToFetchPoints";
 import { processGpx } from "../../helpers/processGpx";
 import { lineString, along } from "@turf/turf";
 
 export function GpxInput() {
+  const { setWeatherFetchPoints, setDistance } = useRoute();
+
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
 
@@ -11,19 +15,12 @@ export function GpxInput() {
 
     const { waypoints, distance } = processGpx(gpxText);
 
+    setDistance(distance);
     const line = lineString(waypoints.map((wp) => wp.coord));
 
-    let currentDistanceinKm = 0;
-    const gpxDistanceInKm = distance / 1000;
-    const weatherFetchPoints = [];
+    const weatherFetchPointsArr = parseDistanceToFetchPoints(distance, line);
 
-    while (currentDistanceinKm < gpxDistanceInKm) {
-      const currentPoint = along(line, currentDistanceinKm);
-      weatherFetchPoints.push(currentPoint);
-      currentDistanceinKm += 5;
-    }
-
-    console.log(weatherFetchPoints);
+    setWeatherFetchPoints(weatherFetchPointsArr);
   }
 
   return (

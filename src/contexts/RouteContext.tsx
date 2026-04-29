@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from "react";
 
 type RouteContextType = {
-  weatherFetchPoints: number[];
-  setWeatherFetchPoints: (points: number[]) => void;
+  weatherFetchPoints: any[];
+  setWeatherFetchPoints: (points: any[]) => void;
   distance: number;
   setDistance: (distance: number) => void;
 };
@@ -10,8 +10,8 @@ type RouteContextType = {
 const RouteContext = createContext<RouteContextType | null>(null);
 
 export function RouteProvider({ children }: { children: React.ReactNode }) {
-  const [weatherFetchPoints, setWeatherFetchPoints] = useState<number[]>([]);
-  const [distance, setDistance] = useState<number>(0);
+  const [weatherFetchPoints, setWeatherFetchPoints] = useState([]);
+  const [distance, setDistance] = useState(0);
 
   return (
     <RouteContext

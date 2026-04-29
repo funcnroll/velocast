@@ -4,14 +4,11 @@ import GpxInput from "./components/ui/GpxInput";
 import DepartureTime from "./components/ui/DepartureTime";
 import { useState } from "react";
 import SpeedInput from "./components/ui/SpeedInput";
-import { RouteProvider } from "./contexts/RouteContext";
+import { RouteProvider, useRoute } from "./contexts/RouteContext";
 
 export default function App() {
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
   const [speed, setSpeed] = useState<number>(0);
-
-  console.log(departureTime);
-  console.log(speed);
 
   return (
     <RouteProvider>
