@@ -1,6 +1,10 @@
+import type { RiderProfileType } from "../types/RiderProfileType";
 import type { WeatherData } from "../types/WeatherData";
 
-export function scoreWeatherConditions(weatherData: WeatherData) {
+export function scoreWeatherConditions(
+  weatherData: WeatherData,
+  profile: RiderProfileType,
+) {
   const {
     actual_temp,
     precipitation_probability,
