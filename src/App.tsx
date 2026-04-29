@@ -4,7 +4,8 @@ import GpxInput from "./components/ui/GpxInput";
 import DepartureTime from "./components/ui/DepartureTime";
 import { useState } from "react";
 import SpeedInput from "./components/ui/SpeedInput";
-import { RouteProvider, useRoute } from "./contexts/RouteContext";
+import { RouteProvider } from "./contexts/RouteContext";
+import DistanceCalculator from "./components/ui/DistanceCalculator";
 
 export default function App() {
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
@@ -31,6 +32,10 @@ export default function App() {
           <DepartureTime setDepartureTime={setDepartureTime} />
           <SpeedInput
             setSpeed={setSpeed}
+            speed={speed}
+          />
+          <DistanceCalculator
+            departureTime={departureTime}
             speed={speed}
           />
         </div>

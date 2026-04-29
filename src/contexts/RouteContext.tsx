@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react";
 
 type RouteContextType = {
+  // TODO: type this properly
   weatherFetchPoints: any[];
   setWeatherFetchPoints: (points: any[]) => void;
   distance: number;
