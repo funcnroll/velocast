@@ -23,7 +23,20 @@ function ShowWeather() {
         string.toISOString().slice(0, 16),
       );
 
-      console.log(hourlyMatch);
+      const hourlyMatchWeatherData = {
+        actual_temp: data.hourly.temperature_2m[hourlyMatch],
+        apparent_temp: data.hourly.apparent_temperature[hourlyMatch],
+        precipitation_probability:
+          data.hourly.precipitation_probability[hourlyMatch],
+        rain: data.hourly.rain[hourlyMatch],
+        weather_code: data.hourly.weather_code[hourlyMatch],
+        wind_speed_10m: data.hourly.wind_speed_10m[hourlyMatch],
+        wind_direction_10m: data.hourly.wind_direction_10m[hourlyMatch],
+        wind_gusts_10m: data.hourly.wind_gusts_10m[hourlyMatch],
+        uv_index: data.hourly.uv_index[hourlyMatch],
+      };
+
+      console.log(hourlyMatchWeatherData);
     }
     fetchData();
   }, [etaArr]);
