@@ -1,6 +1,6 @@
 import type { WeatherCodeResult } from "../types/WeatherCodeResult";
 
-function scoreWeatherCode(code: number): WeatherCodeResult {
+export function scoreWeatherCode(code: number): WeatherCodeResult {
   // https://open-meteo.com/en/docs#weather_variable_documentation
   switch (code) {
     // Clear sky / mainly clear
@@ -30,6 +30,7 @@ function scoreWeatherCode(code: number): WeatherCodeResult {
       return {
         verdict: "yellow",
         message: "Light/moderate drizzle. Roads may be slippery.",
+        score: -10,
       };
 
     // Heavy drizzle
