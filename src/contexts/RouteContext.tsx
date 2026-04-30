@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useMemo } from "react";
 import type { Waypoint } from "../types/Waypoint";
 import type { RiderProfileType } from "../types/RiderProfileType";
+import type { ScoreResult } from "../types/ScoreResult";
 
 type RouteContextType = {
   // TODO: type this properly
@@ -15,6 +16,8 @@ type RouteContextType = {
   setSpeed: (speed: number) => void;
   riderProfile: RiderProfileType;
   setRiderProfile: (profile: RiderProfileType) => void;
+  data: ScoreResult[];
+  setData: (data: ScoreResult) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
@@ -25,13 +28,16 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
   const [speed, setSpeed] = useState<number>(0);
   const [riderProfile, setRiderProfile] = useState<string>("casual");
+  const [data, setData] = useState<ScoreResult[]>([]);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !speed) return [];
 
     return weatherFetchPoints.map((point, i) => {
       const coords = point.geometry.coordinates as [number, number];
-      const distanceKm = i * 5;
+
+      // Keeep distances bigger to not flood OpenMeteo with too many requests
+      const distanceKm = i * 15; // 15km intervals
       const hoursToArrive = distanceKm / speed;
 
       // calculate eta by adding hoursToArrive to departureTime
@@ -55,6 +61,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setSpeed,
         riderProfile,
         setRiderProfile,
+        setData,
+        data,
       }}
     >
       {children}

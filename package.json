@@ -11,10 +11,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.4",
-    "@tanstack/react-query": "^5.100.6",
     "@turf/turf": "^7.3.5",
     "@types/geojson": "^7946.0.16",
     "@we-gold/gpxjs": "^1.1.0",
+    "bottleneck": "^2.19.5",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "leaflet": "^1.9.4",
@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tanstack/eslint-plugin-query": "^5.100.6",
     "@types/leaflet": "^1.9.21",
     "@types/leaflet-gpx": "^1.3.8",
     "@types/node": "^24.12.2",

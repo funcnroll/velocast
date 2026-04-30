@@ -40,7 +40,7 @@ export function scoreWeatherConditions(
     messages.push(codeResult.message);
   }
 
-  //  Wind speed (max 40 points, unless too fast)
+  //  Wind speed (max 60 points, unless too fast)
   if (wind_speed_10m > 60) {
     return {
       score: 0,
@@ -51,8 +51,8 @@ export function scoreWeatherConditions(
   const windPenalty = calculateScorePenalty(
     Math.min(wind_speed_10m, 40),
     60,
-    1.5,
-    40,
+    1.3,
+    60,
     windMultiplier,
   );
   score -= windPenalty;
@@ -60,12 +60,12 @@ export function scoreWeatherConditions(
   if (wind_speed_10m > 30) messages.push("Strong winds. Expect resistance.");
   else if (wind_speed_10m > 15) messages.push("Moderate winds.");
 
-  //  Wind gusts (max 25 points)
+  //  Wind gusts (max 30 points)
   const gustPenalty = calculateScorePenalty(
     Math.min(wind_gusts_10m, 80),
     80,
-    1.8,
-    25,
+    1.4,
+    30,
     windMultiplier,
   );
   score -= gustPenalty;
@@ -74,15 +74,15 @@ export function scoreWeatherConditions(
     messages.push("Dangerous gusts. Stay alert or reconsider.");
   else if (wind_gusts_10m > 35) messages.push("Occasional strong gusts.");
 
-  //  Apparent temperature (max 20 points)
+  //  Apparent temperature (max 30 points)
   const idealTemp = 20;
   const tempDeviation = Math.abs(apparent_temp - idealTemp);
 
   const tempPenalty = calculateScorePenalty(
     Math.min(tempDeviation, 25),
     25,
-    1.3,
-    20,
+    1.5,
+    30,
     tempMultiplier,
   );
   score -= tempPenalty;
@@ -129,8 +129,11 @@ export function scoreWeatherConditions(
   // clamp score between 0-100
   score = Math.max(0, Math.min(100, Math.round(score)));
 
+  if (score >= 85 && apparent_temp >= 10)
+    messages.unshift("Great conditions for cycling!");
+
   const verdict: "green" | "yellow" | "red" =
-    score >= 70 ? "green" : score >= 40 ? "yellow" : "red";
+    score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
 
   const message =
     messages.length > 0 ? messages.join(" ") : "Great conditions for cycling!";

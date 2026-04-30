@@ -5,38 +5,33 @@ import DepartureTime from "./components/ui/DepartureTime";
 import SpeedInput from "./components/ui/SpeedInput";
 import { RouteProvider } from "./contexts/RouteContext";
 import ShowWeather from "./components/ui/ShowWeather";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import RiderProfile from "./components/ui/RiderProfile";
-
-const queryClient = new QueryClient();
 
 export default function App() {
   return (
     <RouteProvider>
-      <QueryClientProvider client={queryClient}>
-        <div className="flex h-screen w-screen bg-zinc-900">
-          <div className="flex-1">
-            <MapContainer
-              zoom={12}
-              style={{ width: "100%", height: "100%" }}
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='© <a href="https://www.openstreetmap.org">OpenStreetMap</a>'
-              />
-              <GpxLayer url="/templateMap.gpx" />
-            </MapContainer>
-          </div>
-
-          <div className="w-80 bg-zinc-800 border-l border-zinc-700 p-4 text-white">
-            <GpxInput />
-            <DepartureTime />
-            <RiderProfile />
-            <SpeedInput />
-            <ShowWeather />
-          </div>
+      <div className="flex h-screen w-screen bg-zinc-900">
+        <div className="flex-1">
+          <MapContainer
+            zoom={12}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='© <a href="https://www.openstreetmap.org">OpenStreetMap</a>'
+            />
+            <GpxLayer url="/templateMap.gpx" />
+          </MapContainer>
         </div>
-      </QueryClientProvider>
+
+        <div className="w-80 bg-zinc-800 border-l border-zinc-700 p-4 text-white">
+          <GpxInput />
+          <DepartureTime />
+          <RiderProfile />
+          <SpeedInput />
+          <ShowWeather />
+        </div>
+      </div>
     </RouteProvider>
   );
 }

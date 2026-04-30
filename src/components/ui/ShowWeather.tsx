@@ -1,29 +1,45 @@
+import Bottleneck from "bottleneck";
 import { useRoute } from "../../contexts/RouteContext";
 import { fetchWeatherData } from "../../helpers/fetchWeatherData";
-import { useQueries } from "@tanstack/react-query";
+import { scoreWeatherConditions } from "../../helpers/scoreWeatherConditions";
+import { useEffect } from "react";
 
 function ShowWeather() {
-  const { etaArr } = useRoute();
+  const { etaArr, riderProfile, data, setData } = useRoute();
 
-  const results = useQueries({
-    queries: etaArr.map((waypoint) => ({
-      queryKey: [
-        "weatherData",
-        waypoint.coord[0],
-        waypoint.coord[1],
-        waypoint.eta,
-      ],
-      queryFn: () => {
-        return fetchWeatherData(
-          waypoint.coord[0],
-          waypoint.coord[1],
-          waypoint.eta,
+  useEffect(() => {
+    const limiter = new Bottleneck({
+      minTime: 200,
+      maxConcurrent: 5, // 25 requests/s
+    });
+
+    let cancelled = false;
+
+    async function run() {
+      const fetchData = etaArr.map((waypoint) => {
+        return limiter.schedule(() =>
+          fetchWeatherData(waypoint.coord[0], waypoint.coord[1], waypoint.eta),
         );
-      },
-    })),
-  });
+      });
 
-  console.log(results.map((result) => result.data));
+      const results = await Promise.all(fetchData);
+
+      if (!cancelled && results) {
+        const scoredData = results.map((result) =>
+          scoreWeatherConditions(result, riderProfile),
+        );
+        setData(scoredData);
+      }
+    }
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [etaArr, riderProfile, setData]);
+
+  console.log(data);
+
   return <div></div>;
 }
 
