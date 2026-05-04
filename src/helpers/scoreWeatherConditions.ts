@@ -23,6 +23,7 @@ export function scoreWeatherConditions(
     profileConfig[profile];
 
   let score = 100;
+  let message: string;
   const messages: string[] = [];
 
   //  Weather code (hard override)
@@ -143,8 +144,11 @@ export function scoreWeatherConditions(
   const verdict: "green" | "yellow" | "red" =
     score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
 
-  const message =
-    messages.length > 0 ? messages.join(" ") : "Great conditions for cycling!";
+  if (messages.length > 0) {
+    message = messages.join(" ");
+  } else {
+    message = "No issues found.";
+  }
 
   return { score, verdict, message };
 }
