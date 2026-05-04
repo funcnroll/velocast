@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import type { WeatherData } from "../../types/WeatherData";
 
 function ShowWeather() {
-  const { etaArr, riderProfile, data, setData } = useRoute();
+  const { etaArr, riderProfile, data, setData, setIsLoading } = useRoute();
 
   useEffect(() => {
     const limiter = new Bottleneck({
@@ -17,6 +17,7 @@ function ShowWeather() {
     let cancelled = false;
 
     async function run() {
+      setIsLoading(true);
       const fetchData = etaArr.map((waypoint) => {
         return limiter.schedule(() =>
           fetchWeatherData(waypoint.coord[0], waypoint.coord[1], waypoint.eta),
@@ -30,14 +31,16 @@ function ShowWeather() {
           scoreWeatherConditions(result, riderProfile, i),
         );
         setData(scoredData);
+        setIsLoading(false);
       }
     }
 
     run();
     return () => {
       cancelled = true;
+      setIsLoading(false);
     };
-  }, [etaArr, riderProfile, setData]);
+  }, [etaArr, riderProfile, setData, setIsLoading]);
 
   console.log(data);
 

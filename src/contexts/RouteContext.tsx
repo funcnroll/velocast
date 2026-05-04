@@ -20,6 +20,10 @@ type RouteContextType = {
   setRiderProfile: (profile: RiderProfileType) => void;
   data: ScoreResult[];
   setData: (data: ScoreResult[]) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+  gpxUrl: string;
+  setGpxUrl: (gpxUrl: string) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
@@ -32,6 +36,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [riderProfile, setRiderProfile] = useState<string>("casual");
   const [data, setData] = useState<ScoreResult[]>([]);
   const debouncedSpeed = useDebounce(speed, 300);
+  const [isLoading, setIsLoading] = useState(false);
+  const [gpxUrl, setGpxUrl] = useState<string | null>(null);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -66,6 +72,10 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setRiderProfile,
         setData,
         data,
+        isLoading,
+        setIsLoading,
+        gpxUrl,
+        setGpxUrl,
       }}
     >
       {children}
