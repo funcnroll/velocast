@@ -8,6 +8,7 @@ import { calculateScorePenalty } from "./calculateScorePenalty";
 export function scoreWeatherConditions(
   weatherData: WeatherData,
   profile: RiderProfileType,
+  waypointIndex: number,
 ): ScoreResult {
   const {
     apparent_temp,
@@ -150,5 +151,5 @@ export function scoreWeatherConditions(
     message = "No issues found.";
   }
 
-  return { score, verdict, message };
+  return { score, verdict, message, waypointIndex };
 }

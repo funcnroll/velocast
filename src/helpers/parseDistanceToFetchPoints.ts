@@ -1,5 +1,6 @@
 import { along } from "@turf/turf";
 import type { Feature, LineString } from "geojson";
+import { intervalKm } from "../config/intervalKm";
 
 export function parseDistanceToFetchPoints(
   distance: number,
@@ -13,7 +14,7 @@ export function parseDistanceToFetchPoints(
     const currentPoint = along(line, currentDistanceinKm);
     weatherFetchPointsArr.push(currentPoint);
     // TODO: make the interval dynamic based off route length
-    currentDistanceinKm += 5;
+    currentDistanceinKm += intervalKm;
   }
 
   return weatherFetchPointsArr;

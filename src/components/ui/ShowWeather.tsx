@@ -25,10 +25,9 @@ function ShowWeather() {
 
       const results: WeatherData[] = await Promise.all(fetchData);
 
-      console.log(results);
       if (!cancelled && results) {
-        const scoredData = results.map((result) =>
-          scoreWeatherConditions(result, riderProfile),
+        const scoredData = results.map((result, i) =>
+          scoreWeatherConditions(result, riderProfile, i),
         );
         setData(scoredData);
       }

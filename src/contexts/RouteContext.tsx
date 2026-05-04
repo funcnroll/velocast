@@ -3,6 +3,7 @@ import type { Waypoint } from "../types/Waypoint";
 import type { RiderProfileType } from "../types/RiderProfileType";
 import type { ScoreResult } from "../types/ScoreResult";
 import { useDebounce } from "@uidotdev/usehooks";
+import { intervalKm } from "../config/intervalKm";
 
 type RouteContextType = {
   // TODO: type this properly
@@ -39,7 +40,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
       const coords = point.geometry.coordinates as [number, number];
 
       // Keeep distances bigger to not flood OpenMeteo with too many requests
-      const distanceKm = i * 15; // 15km intervals
+      const distanceKm = i * intervalKm;
       const hoursToArrive = distanceKm / debouncedSpeed;
 
       // calculate eta by adding hoursToArrive to departureTime
