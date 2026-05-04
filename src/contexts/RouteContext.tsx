@@ -25,6 +25,7 @@ type RouteContextType = {
   setIsLoading: (isLoading: boolean) => void;
   gpxUrl: string;
   setGpxUrl: (gpxUrl: string) => void;
+  debouncedSpeed: number;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
@@ -33,7 +34,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [weatherFetchPoints, setWeatherFetchPoints] = useState<any[]>([]);
   const [distance, setDistance] = useState(0);
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
-  const [speed, setSpeed] = useState<number>(0);
+  const [speed, setSpeed] = useState<number>(20);
   const [riderProfile, setRiderProfile] = useState<string>("casual");
   const [data, setData] = useState<ScoreResult[]>([]);
   const debouncedSpeed = useDebounce(speed, 300);
@@ -63,6 +64,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         departureTime,
         setDepartureTime,
         debouncedSpeed,
+        speed,
         setSpeed,
         riderProfile,
         setRiderProfile,
