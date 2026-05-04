@@ -4,7 +4,8 @@ import { processGpx } from "../../helpers/processGpx";
 import { lineString } from "@turf/turf";
 
 export function GpxInput() {
-  const { setWeatherFetchPoints, setDistance, setGpxUrl } = useRoute();
+  const { setWeatherFetchPoints, setDistance, setGpxUrl, setGpxLines } =
+    useRoute();
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -19,6 +20,8 @@ export function GpxInput() {
     setGpxUrl(URL.createObjectURL(file));
 
     const line = lineString(waypoints.map((wp) => wp.coord));
+
+    setGpxLines(line.geometry.coordinates);
 
     const weatherFetchPointsArr = parseDistanceToFetchPoints(distance, line);
 

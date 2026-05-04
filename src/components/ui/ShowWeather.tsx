@@ -44,8 +44,6 @@ function ShowWeather() {
     };
   }, [etaArr, riderProfile, setData, setIsLoading]);
 
-  console.log(data);
-
   return <div></div>;
 }
 

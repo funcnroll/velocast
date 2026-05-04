@@ -3,6 +3,7 @@ import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-gpx";
 import { useRoute } from "../../contexts/RouteContext";
+import { green } from "../../config/colors";
 
 export default function GpxLayer() {
   const { gpxUrl } = useRoute();
@@ -13,7 +14,7 @@ export default function GpxLayer() {
     const gpx = new (L as any).GPX(gpxUrl, {
       async: true,
       polyline_options: {
-        color: "#4ade80",
+        color: green,
         weight: 4,
         opacity: 0.9,
         lineCap: "round",

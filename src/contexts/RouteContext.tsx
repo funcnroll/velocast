@@ -26,6 +26,8 @@ type RouteContextType = {
   gpxUrl: string;
   setGpxUrl: (gpxUrl: string) => void;
   debouncedSpeed: number;
+  gpxLines: any;
+  setGpxLines: (gpxLine: any) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
@@ -40,6 +42,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const debouncedSpeed = useDebounce(speed, 300);
   const [isLoading, setIsLoading] = useState(false);
   const [gpxUrl, setGpxUrl] = useState<string | null>(null);
+  const [gpxLines, setGpxLines] = useState<any>(null);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -74,6 +77,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setIsLoading,
         gpxUrl,
         setGpxUrl,
+        gpxLines,
+        setGpxLines,
       }}
     >
       {children}

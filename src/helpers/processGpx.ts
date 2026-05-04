@@ -11,8 +11,8 @@ export function processGpx(gpxText: string) {
   if (!track) return { waypoints: [], distance: 0 };
 
   const points = track.points.map((point) => ({
-    lat: point.latitude,
     lon: point.longitude,
+    lat: point.latitude,
   }));
 
   const distance = track.distance.total;
