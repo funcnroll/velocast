@@ -3,6 +3,7 @@ import { useRoute } from "../../contexts/RouteContext";
 import { fetchWeatherData } from "../../helpers/fetchWeatherData";
 import { scoreWeatherConditions } from "../../helpers/scoreWeatherConditions";
 import { useEffect } from "react";
+import type { WeatherData } from "../../types/WeatherData";
 
 function ShowWeather() {
   const { etaArr, riderProfile, data, setData } = useRoute();
@@ -22,8 +23,9 @@ function ShowWeather() {
         );
       });
 
-      const results = await Promise.all(fetchData);
+      const results: WeatherData[] = await Promise.all(fetchData);
 
+      console.log(results);
       if (!cancelled && results) {
         const scoredData = results.map((result) =>
           scoreWeatherConditions(result, riderProfile),

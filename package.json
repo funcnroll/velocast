@@ -13,6 +13,7 @@
     "@tailwindcss/vite": "^4.2.4",
     "@turf/turf": "^7.3.5",
     "@types/geojson": "^7946.0.16",
+    "@uidotdev/usehooks": "^2.4.1",
     "@we-gold/gpxjs": "^1.1.0",
     "bottleneck": "^2.19.5",
     "date-fns": "^4.1.0",

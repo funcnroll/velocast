@@ -5,7 +5,7 @@ export type Waypoint = {
 
   // TODO: calculate properties and make them required later
   distanceKm?: number;
-  eta?: Date;
+  eta: Date;
 
   weather?: {
     windSpeedkmH: number;

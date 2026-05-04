@@ -12,6 +12,7 @@ Upload a GPX file, set your speed and departure time, and see the weather condit
 - Open-Meteo API
 - Gpx.js
 - Bottleneck
+- UseHooks
 
 ## Status
 
