@@ -35,9 +35,6 @@ export function scoreWeatherConditions(
   if (codeResult.verdict === "yellow" && codeResult.score) {
     score -= codeResult.score;
     messages.push(codeResult.message);
-  } else {
-    score -= -5;
-    messages.push(codeResult.message);
   }
 
   //  Wind speed (max 60 points, unless too fast)
@@ -50,7 +47,7 @@ export function scoreWeatherConditions(
   }
   const windPenalty = calculateScorePenalty(
     Math.min(wind_speed_10m, 40),
-    60,
+    40,
     1.3,
     60,
     windMultiplier,
@@ -74,21 +71,32 @@ export function scoreWeatherConditions(
     messages.push("Dangerous gusts. Stay alert or reconsider.");
   else if (wind_gusts_10m > 35) messages.push("Occasional strong gusts.");
 
-  //  Apparent temperature (max 30 points)
-  const idealTemp = 20;
-  const tempDeviation = Math.abs(apparent_temp - idealTemp);
-
-  const tempPenalty = calculateScorePenalty(
-    Math.min(tempDeviation, 25),
-    25,
-    1.5,
-    30,
-    tempMultiplier,
-  );
-  score -= tempPenalty;
+  //  Apparent temperature (max 40 points)
+  // Accounting for cold and heat separately
+  // Penalty for cold is designed to be more gradual as cold can be manageable with the right gear, whereas heat can become dangerous more quickly
+  // No penalty between 12 - 23 degrees.
+  if (apparent_temp < 12) {
+    score -= calculateScorePenalty(
+      12 - apparent_temp,
+      20,
+      1.8,
+      40,
+      tempMultiplier,
+    );
+  } else if (apparent_temp > 23) {
+    score -= calculateScorePenalty(
+      apparent_temp - 23,
+      30,
+      1.5,
+      30,
+      tempMultiplier,
+    );
+  }
 
   if (apparent_temp < 5) messages.push("Very cold. Layer up.");
   else if (apparent_temp < 10) messages.push("Cold. A jacket is recommended.");
+  else if (apparent_temp > 10 && apparent_temp < 12)
+    messages.push("Slightly cool. Consider a light layer");
   else if (apparent_temp > 30) messages.push("Very hot. Stay hydrated.");
   else if (apparent_temp > 23) messages.push("Warm. Stay hydrated.");
 
@@ -107,14 +115,17 @@ export function scoreWeatherConditions(
   else if (rain > 0) messages.push("Light rain. Roads may be slippery.");
 
   //  Precipitation probability (max 10 points)
-  const precipPenalty = calculateScorePenalty(
-    precipitation_probability,
-    100,
-    1.4,
-    10,
-    rainMultiplier,
-  );
-  score -= precipPenalty;
+  // If no rain is recorded, there may still theoretically be a precipitation chance.
+  if (rain === 0) {
+    const precipPenalty = calculateScorePenalty(
+      precipitation_probability,
+      100,
+      1.4,
+      10,
+      rainMultiplier,
+    );
+    score -= precipPenalty;
+  }
 
   if (precipitation_probability > 70)
     messages.push("High chance of rain. Consider waterproofs.");
@@ -128,9 +139,6 @@ export function scoreWeatherConditions(
 
   // clamp score between 0-100
   score = Math.max(0, Math.min(100, Math.round(score)));
-
-  if (score >= 85 && apparent_temp >= 10)
-    messages.unshift("Great conditions for cycling!");
 
   const verdict: "green" | "yellow" | "red" =
     score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
