@@ -44,7 +44,7 @@ function MapWeatherWaypoints() {
         color:
           verdict === "green" ? green : verdict === "yellow" ? yellow : red,
         weight: 4,
-        opacity: 0.9,
+        opacity: 1,
       }).addTo(map);
     });
 
