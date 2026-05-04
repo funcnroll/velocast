@@ -5,9 +5,11 @@ import { scoreWeatherConditions } from "../../helpers/scoreWeatherConditions";
 import { useEffect } from "react";
 import type { WeatherData } from "../../types/WeatherData";
 import type { LatLon } from "../../types/LatLon";
+import { green, red, yellow } from "../../config/colors";
 
 function ShowWeather() {
-  const { etaArr, riderProfile, data, setData, setIsLoading } = useRoute();
+  const { etaArr, riderProfile, setData, setIsLoading, sidebarData } =
+    useRoute();
 
   useEffect(() => {
     const limiter = new Bottleneck({
@@ -43,6 +45,20 @@ function ShowWeather() {
       setIsLoading(false);
     };
   }, [etaArr, riderProfile, setData, setIsLoading]);
+
+  if (!sidebarData)
+    return (
+      <p className="text-zinc-400 text-sm">
+        Click a segment to see weather details.
+      </p>
+    );
+
+  const verdictColor =
+    sidebarData.verdict === "green"
+      ? green
+      : sidebarData.verdict === "yellow"
+        ? yellow
+        : red;
 
   return <div></div>;
 }
