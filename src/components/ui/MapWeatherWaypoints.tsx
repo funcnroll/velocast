@@ -6,7 +6,7 @@ import { green, red, yellow } from "../../config/colors";
 import { lineSlice, lineString } from "@turf/turf";
 
 function MapWeatherWaypoints() {
-  const { data, gpxLines, weatherFetchPoints } = useRoute();
+  const { data, gpxLines, weatherFetchPoints, setSidebarData } = useRoute();
   const map = useMap();
 
   useEffect(() => {
@@ -18,7 +18,6 @@ function MapWeatherWaypoints() {
       data.length !== weatherFetchPoints.length
     )
       return;
-    console.log(weatherFetchPoints);
 
     // TODO: handle loop routes where first and last GPX coordinate are the same -> differentiate between loops and "normal" routes via if/else
     // TODO: handle routes shorter than intervalKm -> if/else
@@ -34,24 +33,26 @@ function MapWeatherWaypoints() {
       return { sliced, verdict: data[i].verdict };
     });
 
-    console.log(segments);
-
-    const polylines = segments.map(({ sliced, verdict }) => {
+    const polylines = segments.map(({ sliced, verdict }, i) => {
       const coords = sliced.geometry.coordinates.map(
         ([lon, lat]) => [lat, lon] as [number, number],
       );
       return L.polyline(coords, {
         color:
           verdict === "green" ? green : verdict === "yellow" ? yellow : red,
-        weight: 4,
+        weight: 6,
         opacity: 1,
-      }).addTo(map);
+      })
+        .on("click", () => {
+          setSidebarData(data[i]);
+        })
+        .addTo(map);
     });
 
     return () => {
       polylines.forEach((p) => p.remove());
     };
-  }, [data, map, gpxLines, weatherFetchPoints]);
+  }, [data, map, gpxLines, weatherFetchPoints, setSidebarData]);
 
   return <div></div>;
 }

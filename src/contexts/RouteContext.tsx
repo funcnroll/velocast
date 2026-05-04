@@ -28,10 +28,13 @@ type RouteContextType = {
   debouncedSpeed: number;
   gpxLines: any;
   setGpxLines: (gpxLine: any) => void;
+  sidebarData: ScoreResult | null;
+  setSidebarData: (sidebarData: ScoreResult) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
 
+// TODO: refactor routecontext, way too many unrelated pieces, too unorganised
 export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [weatherFetchPoints, setWeatherFetchPoints] = useState<any[]>([]);
   const [distance, setDistance] = useState(0);
@@ -43,6 +46,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [gpxUrl, setGpxUrl] = useState<string | null>(null);
   const [gpxLines, setGpxLines] = useState<any>(null);
+  const [sidebarData, setSidebarData] = useState<ScoreResult | null>(null);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -79,6 +83,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setGpxUrl,
         gpxLines,
         setGpxLines,
+        sidebarData,
+        setSidebarData,
       }}
     >
       {children}

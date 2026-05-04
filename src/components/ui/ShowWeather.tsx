@@ -29,7 +29,7 @@ function ShowWeather() {
 
       if (!cancelled && results) {
         const scoredData = results.map((result, i) => ({
-          ...scoreWeatherConditions(result, riderProfile, i),
+          ...scoreWeatherConditions(result, riderProfile),
           coord: etaArr[i].coord as LatLon,
         }));
         setData(scoredData);

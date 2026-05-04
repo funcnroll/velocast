@@ -13,7 +13,8 @@ export default function GpxLayer() {
     const gpx = new (L as any).GPX(gpxUrl, {
       async: true,
       polyline_options: {
-        weight: 4,
+        opacity: 0,
+        color: "transparent",
       },
     }).on("loaded", (e: any) => {
       map.fitBounds(e.target.getBounds(), { padding: [40, 40] });
