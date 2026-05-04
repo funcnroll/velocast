@@ -1,5 +1,4 @@
 export type WeatherData = {
-  actual_temp: number;
   apparent_temp: number;
   precipitation_probability: number;
   rain: number;
