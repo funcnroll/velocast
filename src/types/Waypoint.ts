@@ -1,4 +1,4 @@
-export type LatLon = [number, number];
+import type { LatLon } from "./LatLon";
 
 export type Waypoint = {
   coord: LatLon;

@@ -13,7 +13,6 @@ export function parseDistanceToFetchPoints(
   while (currentDistanceinKm < gpxDistanceInKm) {
     const currentPoint = along(line, currentDistanceinKm);
     weatherFetchPointsArr.push(currentPoint);
-    // TODO: make the interval dynamic based off route length
     currentDistanceinKm += intervalKm;
   }
 

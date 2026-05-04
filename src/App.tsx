@@ -6,6 +6,7 @@ import SpeedInput from "./components/ui/SpeedInput";
 import { RouteProvider, useRoute } from "./contexts/RouteContext";
 import ShowWeather from "./components/ui/ShowWeather";
 import RiderProfile from "./components/ui/RiderProfile";
+import MapWeatherWaypoints from "./components/ui/MapWeatherWaypoints";
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ function AppInner() {
             maxZoom={19}
           />
           {gpxUrl && <GpxLayer />}
+          <MapWeatherWaypoints />
         </MapContainer>
       </div>
 

@@ -5,7 +5,6 @@ export function processGpx(gpxText: string) {
   const [parsedFile, error] = parseGPX(gpxText);
 
   if (error) throw error;
-  console.log(parsedFile);
 
   const track = parsedFile?.tracks[0];
 

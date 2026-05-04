@@ -4,6 +4,7 @@ import { fetchWeatherData } from "../../helpers/fetchWeatherData";
 import { scoreWeatherConditions } from "../../helpers/scoreWeatherConditions";
 import { useEffect } from "react";
 import type { WeatherData } from "../../types/WeatherData";
+import type { LatLon } from "../../types/LatLon";
 
 function ShowWeather() {
   const { etaArr, riderProfile, data, setData, setIsLoading } = useRoute();
@@ -27,9 +28,10 @@ function ShowWeather() {
       const results: WeatherData[] = await Promise.all(fetchData);
 
       if (!cancelled && results) {
-        const scoredData = results.map((result, i) =>
-          scoreWeatherConditions(result, riderProfile, i),
-        );
+        const scoredData = results.map((result, i) => ({
+          ...scoreWeatherConditions(result, riderProfile, i),
+          coord: etaArr[i].coord as LatLon,
+        }));
         setData(scoredData);
         setIsLoading(false);
       }

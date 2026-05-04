@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, useMemo } from "react";
-import type { Waypoint } from "../types/Waypoint";
 import type { RiderProfileType } from "../types/RiderProfileType";
 import type { ScoreResult } from "../types/ScoreResult";
 import { useDebounce } from "@uidotdev/usehooks";
 import { intervalKm } from "../config/intervalKm";
+import type { LatLon } from "../types/LatLon";
+import type { EtaPoint } from "../types/EtaPoint";
 
 type RouteContextType = {
   // TODO: type this properly
@@ -11,7 +12,7 @@ type RouteContextType = {
   setWeatherFetchPoints: (points: any[]) => void;
   distance: number;
   setDistance: (distance: number) => void;
-  etaArr: Waypoint[];
+  etaArr: EtaPoint[];
   departureTime: Date;
   setDepartureTime: (date: Date) => void;
   speed: number;
@@ -43,16 +44,11 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
 
     return weatherFetchPoints.map((point, i) => {
-      const coords = point.geometry.coordinates as [number, number];
-
-      // Keeep distances bigger to not flood OpenMeteo with too many requests
+      const coords = point.geometry.coordinates as LatLon;
       const distanceKm = i * intervalKm;
       const hoursToArrive = distanceKm / debouncedSpeed;
-
-      // calculate eta by adding hoursToArrive to departureTime
       const etaMs = departureTime.getTime() + hoursToArrive * 60 * 60 * 1000;
-
-      return { coord: [...coords], eta: new Date(etaMs) };
+      return { coord: coords, eta: new Date(etaMs) };
     });
   }, [departureTime, debouncedSpeed, weatherFetchPoints]);
 
