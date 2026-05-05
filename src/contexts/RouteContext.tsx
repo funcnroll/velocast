@@ -5,11 +5,11 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { intervalKm } from "../config/intervalKm";
 import type { LatLon } from "../types/LatLon";
 import type { EtaPoint } from "../types/EtaPoint";
+import type { Feature, Point } from "geojson";
 
 type RouteContextType = {
-  // TODO: type this properly
-  weatherFetchPoints: any[];
-  setWeatherFetchPoints: (points: any[]) => void;
+  weatherFetchPoints: Feature<Point>[];
+  setWeatherFetchPoints: (weatherFetchPoints: Feature<Point>[]) => void;
   distance: number;
   setDistance: (distance: number) => void;
   etaArr: EtaPoint[];
@@ -26,28 +26,30 @@ type RouteContextType = {
   gpxUrl: string;
   setGpxUrl: (gpxUrl: string) => void;
   debouncedSpeed: number;
-  gpxLines: any;
-  setGpxLines: (gpxLine: any) => void;
+  gpxLines: LatLon[] | null;
+  setGpxLines: (gpxLine: LatLon[] | null) => void;
   sidebarData: ScoreResult | null;
   setSidebarData: (sidebarData: ScoreResult) => void;
   error: string;
-  setError: (error: String) => void;
+  setError: (error: string) => void;
 };
 
 const RouteContext = createContext<RouteContextType | null>(null);
 
 // TODO: refactor routecontext, way too many unrelated pieces, too unorganised
 export function RouteProvider({ children }: { children: React.ReactNode }) {
-  const [weatherFetchPoints, setWeatherFetchPoints] = useState<any[]>([]);
+  const [weatherFetchPoints, setWeatherFetchPoints] = useState<
+    Feature<Point>[]
+  >([]);
   const [distance, setDistance] = useState(0);
   const [departureTime, setDepartureTime] = useState<Date>(new Date());
   const [speed, setSpeed] = useState<number>(20);
-  const [riderProfile, setRiderProfile] = useState<string>("casual");
+  const [riderProfile, setRiderProfile] = useState<RiderProfileType>("casual");
   const [data, setData] = useState<ScoreResult[]>([]);
   const debouncedSpeed = useDebounce(speed, 300);
   const [isLoading, setIsLoading] = useState(false);
-  const [gpxUrl, setGpxUrl] = useState<string | null>(null);
-  const [gpxLines, setGpxLines] = useState<any>(null);
+  const [gpxUrl, setGpxUrl] = useState<string>("");
+  const [gpxLines, setGpxLines] = useState<LatLon[] | null>(null);
   const [sidebarData, setSidebarData] = useState<ScoreResult | null>(null);
   const [error, setError] = useState<string>("");
 
