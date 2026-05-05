@@ -20,6 +20,19 @@ export function useWeatherFetch() {
     async function run() {
       setError("");
       setIsLoading(true);
+
+      const maxForecastTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      const lastEta = etaArr.at(-1)?.eta;
+
+      // Prevent eta going beyond 7 days from now (Open-Meteo only has reliable data 7 days from present)
+      if (lastEta && lastEta > maxForecastTime) {
+        setError(
+          "Route ETA exceeds 7-day forecast limit. Try an earlier departure time or higher speed.",
+        );
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const results: WeatherData[] = await Promise.all(
           etaArr.map((waypoint) =>
