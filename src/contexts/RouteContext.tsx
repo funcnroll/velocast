@@ -10,7 +10,7 @@ import type { RouteContextType } from "../types/RouteContextType";
 // TODO: refactor routecontext, way too many unrelated pieces, too unorganised
 export const RouteContext = createContext<RouteContextType | null>(null);
 
-// Avoid re-render, thus not sending too many requests to Open-Meteo
+// Avoid creation on each re-render by setting this on the outside , thus not sending too many requests to Open-Meteo
 const initialDepartureTime = new Date();
 
 export function RouteProvider({ children }: { children: React.ReactNode }) {
