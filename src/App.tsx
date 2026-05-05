@@ -39,7 +39,7 @@ function AppInner() {
         </MapContainer>
       </div>
 
-      <div className="w-80 bg-zinc-800 border-l border-zinc-700 p-4 text-white">
+      <div className="w-lg bg-zinc-800 border-l border-zinc-700 p-4 text-white">
         <GpxInput />
         <DepartureTime />
         <RiderProfile />

@@ -1,6 +1,14 @@
 import { useWeatherFetch } from "../../hooks/useWeatherFetch";
 import { useRoute } from "../../hooks/useRoute";
 import { green, red, yellow } from "../../config/colors";
+import { degreesToCompass } from "../../helpers/degreesToCompass";
+import { uvLabel } from "../../helpers/uvLabel";
+import StatRow from "./StatRow";
+import ShowWeatherIsLoading from "./ShowWeatherUI/ShowWeatherStates/ShowWeatherIsLoading";
+import ShowWeatherError from "./ShowWeatherUI/ShowWeatherStates/ShowWeatherError";
+import ShowWeatherSegmentInspect from "./ShowWeatherUI/ShowWeatherStates/ShowWeatherSegmentInspect";
+import ShowWeatherScoreVerdict from "./ShowWeatherUI/ShowWeatherScoreVerdict";
+import ShowWeatherETA from "./ShowWeatherUI/ShowWeatherEta";
 
 function ShowWeather() {
   useWeatherFetch();
@@ -9,21 +17,11 @@ function ShowWeather() {
 
   if (!gpxLines && !error) return null;
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center py-8">
-        <div className="w-6 h-6 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
-      </div>
-    );
+  if (isLoading) return <ShowWeatherIsLoading />;
 
-  if (!sidebarData && !error)
-    return (
-      <p className="text-zinc-400 text-sm">
-        Click a segment to see weather details.
-      </p>
-    );
+  if (error) return <ShowWeatherError error={error} />;
 
-  if (error) return <div>{error}</div>;
+  if (!sidebarData) return <ShowWeatherSegmentInspect />;
 
   const verdictColor =
     sidebarData.verdict === "green"
@@ -32,64 +30,60 @@ function ShowWeather() {
         ? yellow
         : red;
 
+  const breakdown = sidebarData.breakdown;
+
+  const conditions = [
+    { label: "Feels like", value: breakdown?.apparent_temp, unit: "°C" },
+    { label: "Rain", value: breakdown?.rain, unit: "mm" },
+    {
+      label: "Precipation chance",
+      value: breakdown?.precipitation_probability,
+      unit: "%",
+    },
+    { label: "Wind", value: breakdown?.wind_speed_10m, unit: "km/h" },
+    { label: "Gusts", value: breakdown?.wind_gusts_10m, unit: "km/h" },
+    {
+      label: "Direction",
+      value: breakdown?.wind_direction_10m,
+      format: (v: number) => `${degreesToCompass(v)} (${v}°)`,
+    },
+    {
+      label: "UV",
+      value: breakdown?.uv_index,
+      format: (v: number) => `${uvLabel(v)} (${v})`,
+    },
+  ];
+
   return (
-    // Temporary, will be refactored into a nicer component
+    <div className="mt-4 space-y-3">
+      <ShowWeatherScoreVerdict
+        score={sidebarData.score}
+        verdict={sidebarData.verdict}
+        verdictColor={verdictColor}
+      />
 
-    // TODO: UI polish:
-    // - Wind direction as compass label (N/NE/SW etc) not raw degrees
-    // - UV index with severity label (low/moderate/high/very high)
-    // - Separate raw breakdown data from advisory messages
-    // - If weather code triggered a red verdict, show it prominently as the reason
-    //   before showing the rest of the breakdown
+      {sidebarData.eta && <ShowWeatherETA eta={sidebarData.eta} />}
 
-    <div className="mt-4 p-3 rounded-lg bg-zinc-700 space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-zinc-300">Score</span>
-        <span
-          className="text-lg font-bold"
-          style={{ color: verdictColor }}
-        >
-          {sidebarData.score}/100
-        </span>
-      </div>
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-zinc-300">Verdict</span>
-        <span
-          className="text-sm font-semibold capitalize"
-          style={{ color: verdictColor }}
-        >
-          {sidebarData.verdict}
-        </span>
-      </div>
-      <p className="text-sm text-zinc-400">{sidebarData.message}</p>
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium text-zinc-300">ETA</span>
-        <span className="text-sm text-zinc-300">
-          {sidebarData.eta
-            ? sidebarData.eta.toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-            : "—"}
-        </span>
-      </div>
-      <div>
-        <p>Composed of:</p>
-        <ul>
-          <li>
-            Apparent Temperature: {sidebarData.breakdown?.apparent_temp}°C
-          </li>
-          <li>
-            Precipitation Probability:{" "}
-            {sidebarData.breakdown?.precipitation_probability}%
-          </li>
-          <li>Rain: {sidebarData.breakdown?.rain}mm</li>
-          <li>Weather Code: {sidebarData.breakdown?.weather_code}</li>
-          <li>Wind Speed: {sidebarData.breakdown?.wind_speed_10m}km/h</li>
-          <li>Wind Gusts: {sidebarData.breakdown?.wind_gusts_10m}km/h</li>
-          <li>Wind Direction: {sidebarData.breakdown?.wind_direction_10m}°</li>
-          <li>UV Index: {sidebarData.breakdown?.uv_index}</li>
-        </ul>
+      {/* advisory message */}
+      <p className="text-sm text-zinc-400 leading-relaxed px-1">
+        {sidebarData.message}
+      </p>
+
+      {/* breakdown */}
+      <div className="rounded-lg bg-zinc-900/60 p-3">
+        <p className="text-xs text-zinc-500 uppercase tracking-wide  mb-2">
+          Conditions
+        </p>
+        {conditions.map(
+          ({ label, value, unit, format }) =>
+            value !== undefined && (
+              <StatRow
+                key={label}
+                label={label}
+                value={format ? format(value) : `${value} ${unit}`}
+              />
+            ),
+        )}
       </div>
     </div>
   );
