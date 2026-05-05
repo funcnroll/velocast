@@ -54,6 +54,7 @@ function MapWeatherWaypoints() {
       }).addTo(map);
     });
 
+    // The waypoint lines themselves
     const polylines = segments.map(({ sliced, verdict }, i) => {
       const coords = sliced.geometry.coordinates.map(
         ([lon, lat]) => [lat, lon] as [number, number],
