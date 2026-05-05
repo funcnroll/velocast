@@ -13,7 +13,3 @@ Upload a GPX file, set your speed and departure time, and see the weather condit
 - Gpx.js
 - Bottleneck
 - UseHooks
-
-## Status
-
-In development
