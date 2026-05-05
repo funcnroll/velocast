@@ -45,9 +45,9 @@ export function scoreWeatherConditions(
   }
 
   // Yellow codes reduce score but allow individual codes to influence final verdict
-  if (codeResult.verdict === "yellow" && codeResult.score) {
-    score -= codeResult.score;
+  if (codeResult.verdict === "yellow") {
     messages.push(codeResult.message);
+    if (codeResult.score) score -= codeResult.score;
   }
 
   //  Wind speed (max 60 points, unless too fast)
@@ -124,12 +124,14 @@ export function scoreWeatherConditions(
   score -= rainPenalty;
 
   if (rain > 5) messages.push("Heavy rain. Very wet roads.");
-  else if (rain > 2) messages.push("Moderate rain.");
-  else if (rain > 0) messages.push("Light rain. Roads may be slippery.");
+  else if (rain > 2 && codeResult.verdict === "green")
+    messages.push("Moderate rain.");
+  else if (rain > 0 && codeResult.verdict === "green")
+    messages.push("Light rain. Roads may be slippery.");
 
   //  Precipitation probability (max 10 points)
   // If no rain is recorded, there may still theoretically be a precipitation chance.
-  if (rain === 0) {
+  if (rain === 0 && codeResult.verdict === "green") {
     const precipPenalty = calculateScorePenalty(
       precipitation_probability,
       100,
@@ -138,12 +140,12 @@ export function scoreWeatherConditions(
       rainMultiplier,
     );
     score -= precipPenalty;
-  }
 
-  if (precipitation_probability > 70)
-    messages.push("High chance of rain. Consider waterproofs.");
-  else if (precipitation_probability > 40)
-    messages.push("Some chance of rain.");
+    if (precipitation_probability > 70)
+      messages.push("High chance of rain. Consider waterproofs.");
+    else if (precipitation_probability > 40)
+      messages.push("Some chance of rain.");
+  }
 
   //  UV advisory (no score impact)
   if (uv_index >= 8) messages.push("Very high UV. Sun protection essential.");
