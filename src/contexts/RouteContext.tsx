@@ -52,6 +52,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
 
     return weatherFetchPoints.map((point, i) => {
+      // divide each waypoint into segments, of which the approximate eta is calculated
       const coords = point.geometry.coordinates as LatLon;
       const distanceKm = i * intervalKm;
       const hoursToArrive = distanceKm / debouncedSpeed;

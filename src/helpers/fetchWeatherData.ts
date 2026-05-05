@@ -7,6 +7,7 @@ export async function fetchWeatherData(lat: number, lon: number, eta: Date) {
 
   const response = await fetch(url);
   const data = await response.json();
+
   const timezone = data.timezone as string;
 
   const dateStringRounded = roundToNearestHours(eta);

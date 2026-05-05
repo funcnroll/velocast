@@ -4,6 +4,7 @@ import L from "leaflet";
 import { useMap } from "react-leaflet";
 import { green, red, yellow } from "../../config/colors";
 import { lineSlice, lineString } from "@turf/turf";
+import type { LatLon } from "../../types/LatLon";
 
 function MapWeatherWaypoints() {
   const { data, gpxLines, weatherFetchPoints, setSidebarData } = useRoute();
@@ -19,17 +20,14 @@ function MapWeatherWaypoints() {
     )
       return;
 
-    // TODO: handle loop routes where first and last GPX coordinate are the same -> differentiate between loops and "normal" routes via if/else
-    // TODO: handle routes shorter than intervalKm -> if/else
+    // TODO: handle loop routes
+    // TODO: handle routes shorter than intervalKm
     const line = lineString(gpxLines);
 
-    // Divide each weatherFetchPoint into its own slice
     const segments = weatherFetchPoints.slice(0, -1).map((point, i) => {
       const start = point;
       const end = weatherFetchPoints[i + 1];
-
       const sliced = lineSlice(start, end, line);
-
       return { sliced, verdict: data[i].verdict };
     });
 
@@ -43,9 +41,7 @@ function MapWeatherWaypoints() {
         weight: 6,
         opacity: 1,
       })
-        .on("click", () => {
-          setSidebarData(data[i]);
-        })
+        .on("click", () => setSidebarData(data[i]))
         .addTo(map);
     });
 

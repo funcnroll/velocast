@@ -23,7 +23,7 @@ export function scoreWeatherConditions(
     profileConfig[profile];
 
   let score = 100;
-  let message: string;
+  let message: string = "";
   const messages: string[] = [];
 
   //  Weather code (hard override)
@@ -144,11 +144,33 @@ export function scoreWeatherConditions(
   const verdict: "green" | "yellow" | "red" =
     score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
 
+  const breakdown = {
+    apparent_temp,
+    precipitation_probability,
+    rain,
+    weather_code,
+    wind_speed_10m,
+    wind_gusts_10m,
+  };
+
   if (messages.length > 0) {
     message = messages.join(" ");
-  } else {
+  }
+
+  // red
+  if (messages.length === 0 && verdict !== "green" && verdict === "red") {
+    message = `Poor conditions overall. Consider postponing.`;
+  }
+
+  // yellow
+  if (messages.length === 0 && verdict !== "green" && verdict !== "red") {
+    message = `Combination of mild to moderate adverse factors.`;
+  }
+
+  // green
+  if (messages.length === 0 && verdict === "green") {
     message = "No issues found.";
   }
 
-  return { score, verdict, message };
+  return { score, verdict, message, breakdown };
 }

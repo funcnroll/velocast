@@ -23,7 +23,8 @@ function ShowWeather() {
       setIsLoading(true);
       const fetchData = etaArr.map((waypoint) => {
         return limiter.schedule(() =>
-          fetchWeatherData(waypoint.coord[0], waypoint.coord[1], waypoint.eta),
+          // OpenMeteo expects [lat, lon], so its flipped here from internal [lon, lat] storage
+          fetchWeatherData(waypoint.coord[1], waypoint.coord[0], waypoint.eta),
         );
       });
 
@@ -60,7 +61,44 @@ function ShowWeather() {
         ? yellow
         : red;
 
-  return <div></div>;
+  return (
+    // Temporary, will be refactored into a nicer component
+    <div className="mt-4 p-3 rounded-lg bg-zinc-700 space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-300">Score</span>
+        <span
+          className="text-lg font-bold"
+          style={{ color: verdictColor }}
+        >
+          {sidebarData.score}/100
+        </span>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-300">Verdict</span>
+        <span
+          className="text-sm font-semibold capitalize"
+          style={{ color: verdictColor }}
+        >
+          {sidebarData.verdict}
+        </span>
+      </div>
+      <p className="text-sm text-zinc-400">{sidebarData.message}</p>
+      <div>
+        <p>Composed of:</p>
+        <ul>
+          <li>Apparent Temperature: {sidebarData.breakdown.apparent_temp}°C</li>
+          <li>
+            Precipitation Probability:{" "}
+            {sidebarData.breakdown.precipitation_probability}%
+          </li>
+          <li>Rain: {sidebarData.breakdown.rain}mm</li>
+          <li>Weather Code: {sidebarData.breakdown.weather_code}</li>
+          <li>Wind Speed: {sidebarData.breakdown.wind_speed_10m}km/h</li>
+          <li>Wind Gusts: {sidebarData.breakdown.wind_gusts_10m}km/h</li>
+        </ul>
+      </div>{" "}
+    </div>
+  );
 }
 
 export default ShowWeather;
