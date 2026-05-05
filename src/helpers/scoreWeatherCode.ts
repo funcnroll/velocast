@@ -36,8 +36,9 @@ export function scoreWeatherCode(code: number): WeatherCodeResult {
     // Heavy drizzle
     case 55:
       return {
-        verdict: "red",
-        message: "Heavy drizzle. Not ideal for cycling.",
+        verdict: "yellow",
+        message:
+          "Heavy drizzle. Wet roads and reduced visibility, but manageable.",
       };
 
     // Freezing drizzle
