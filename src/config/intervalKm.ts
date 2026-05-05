@@ -1,1 +1,1 @@
-export const intervalKm = 15;
+export const intervalKm = 10;

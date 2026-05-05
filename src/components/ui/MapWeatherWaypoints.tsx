@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import L from "leaflet";
 import { useMap } from "react-leaflet";
-import { green, red, yellow } from "../../config/colors";
+import { green, red, white, yellow } from "../../config/colors";
 import { lineSlice, lineString } from "@turf/turf";
 import { useRoute } from "../../hooks/useRoute";
 
@@ -20,7 +20,7 @@ function MapWeatherWaypoints() {
     )
       return;
 
-    //Routes shorter than intervalKm (15km) only produce one weatherFetchPoint,
+    //Routes shorter than intervalKm only produce one weatherFetchPoint,
     // which means there are no segments to slice or draw. Open-Meteo data is also
     // only accurate down to ~10km intervals, so short routes wouldn't give
     // meaningful weather insights in the first place
@@ -41,6 +41,19 @@ function MapWeatherWaypoints() {
       return { sliced, verdict: data[i].verdict };
     });
 
+    // Visual separation between each waypoint. Not necessarily pretty, but it works
+    const markers = weatherFetchPoints.map((point) => {
+      const [lon, lat] = point.geometry.coordinates;
+      return L.circleMarker([lat, lon], {
+        radius: 6,
+        color: white,
+        fillColor: white,
+        fillOpacity: 1,
+        weight: 2,
+        pane: "markerPane",
+      }).addTo(map);
+    });
+
     const polylines = segments.map(({ sliced, verdict }, i) => {
       const coords = sliced.geometry.coordinates.map(
         ([lon, lat]) => [lat, lon] as [number, number],
@@ -58,6 +71,7 @@ function MapWeatherWaypoints() {
     return () => {
       setError("");
       polylines.forEach((p) => p.remove());
+      markers.forEach((m) => m.remove());
     };
   }, [data, map, gpxLines, weatherFetchPoints, setSidebarData, setError]);
 
