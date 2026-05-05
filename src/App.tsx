@@ -3,10 +3,11 @@ import GpxLayer from "./components/ui/GpxLayer";
 import GpxInput from "./components/ui/GpxInput";
 import DepartureTime from "./components/ui/DepartureTime";
 import SpeedInput from "./components/ui/SpeedInput";
-import { RouteProvider, useRoute } from "./contexts/RouteContext";
+import { RouteProvider } from "./contexts/RouteContext";
 import ShowWeather from "./components/ui/ShowWeather";
 import RiderProfile from "./components/ui/RiderProfile";
 import MapWeatherWaypoints from "./components/ui/MapWeatherWaypoints";
+import { useRoute } from "./hooks/useRoute";
 
 export default function App() {
   return (

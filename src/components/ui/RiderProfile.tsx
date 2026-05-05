@@ -1,4 +1,4 @@
-import { useRoute } from "../../contexts/RouteContext";
+import { useRoute } from "../../hooks/useRoute";
 import type { RiderProfileType } from "../../types/RiderProfileType";
 
 function RiderProfile() {

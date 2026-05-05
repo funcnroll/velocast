@@ -1,0 +1,32 @@
+import type { RiderProfileType } from "./RiderProfileType";
+import type { ScoreResult } from "./ScoreResult";
+import type { LatLon } from "./LatLon";
+import type { EtaPoint } from "./EtaPoint";
+import type { Feature, Point } from "geojson";
+
+export type RouteContextType = {
+  weatherFetchPoints: Feature<Point>[];
+  setWeatherFetchPoints: (weatherFetchPoints: Feature<Point>[]) => void;
+  distance: number;
+  setDistance: (distance: number) => void;
+  etaArr: EtaPoint[];
+  departureTime: Date;
+  setDepartureTime: (date: Date) => void;
+  speed: number;
+  setSpeed: (speed: number) => void;
+  riderProfile: RiderProfileType;
+  setRiderProfile: (profile: RiderProfileType) => void;
+  data: ScoreResult[];
+  setData: (data: ScoreResult[]) => void;
+  isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
+  gpxUrl: string;
+  setGpxUrl: (gpxUrl: string) => void;
+  debouncedSpeed: number;
+  gpxLines: LatLon[] | null;
+  setGpxLines: (gpxLine: LatLon[] | null) => void;
+  sidebarData: ScoreResult | null;
+  setSidebarData: (sidebarData: ScoreResult) => void;
+  error: string;
+  setError: (error: string) => void;
+};

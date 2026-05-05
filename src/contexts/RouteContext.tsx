@@ -1,42 +1,15 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { useState, useMemo, createContext } from "react";
 import type { RiderProfileType } from "../types/RiderProfileType";
 import type { ScoreResult } from "../types/ScoreResult";
 import { useDebounce } from "@uidotdev/usehooks";
 import { intervalKm } from "../config/intervalKm";
 import type { LatLon } from "../types/LatLon";
-import type { EtaPoint } from "../types/EtaPoint";
 import type { Feature, Point } from "geojson";
-
-type RouteContextType = {
-  weatherFetchPoints: Feature<Point>[];
-  setWeatherFetchPoints: (weatherFetchPoints: Feature<Point>[]) => void;
-  distance: number;
-  setDistance: (distance: number) => void;
-  etaArr: EtaPoint[];
-  departureTime: Date;
-  setDepartureTime: (date: Date) => void;
-  speed: number;
-  setSpeed: (speed: number) => void;
-  riderProfile: RiderProfileType;
-  setRiderProfile: (profile: RiderProfileType) => void;
-  data: ScoreResult[];
-  setData: (data: ScoreResult[]) => void;
-  isLoading: boolean;
-  setIsLoading: (isLoading: boolean) => void;
-  gpxUrl: string;
-  setGpxUrl: (gpxUrl: string) => void;
-  debouncedSpeed: number;
-  gpxLines: LatLon[] | null;
-  setGpxLines: (gpxLine: LatLon[] | null) => void;
-  sidebarData: ScoreResult | null;
-  setSidebarData: (sidebarData: ScoreResult) => void;
-  error: string;
-  setError: (error: string) => void;
-};
-
-const RouteContext = createContext<RouteContextType | null>(null);
+import type { RouteContextType } from "../types/RouteContextType";
 
 // TODO: refactor routecontext, way too many unrelated pieces, too unorganised
+export const RouteContext = createContext<RouteContextType | null>(null);
+
 export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [weatherFetchPoints, setWeatherFetchPoints] = useState<
     Feature<Point>[]
@@ -57,7 +30,6 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
 
     return weatherFetchPoints.map((point, i) => {
-      // divide each waypoint into segments, of which the approximate eta is calculated
       const coords = point.geometry.coordinates as LatLon;
       const distanceKm = i * intervalKm;
       const hoursToArrive = distanceKm / debouncedSpeed;
@@ -98,10 +70,4 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
       {children}
     </RouteContext>
   );
-}
-
-export function useRoute() {
-  const context = useContext(RouteContext);
-  if (!context) throw new Error("useRoute must be used within a RouteProvider");
-  return context;
 }

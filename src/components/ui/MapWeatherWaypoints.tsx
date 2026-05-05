@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useRoute } from "../../contexts/RouteContext";
 import L from "leaflet";
 import { useMap } from "react-leaflet";
 import { green, red, yellow } from "../../config/colors";
 import { lineSlice, lineString } from "@turf/turf";
+import { useRoute } from "../../hooks/useRoute";
 
 function MapWeatherWaypoints() {
   const { data, gpxLines, weatherFetchPoints, setSidebarData, setError } =

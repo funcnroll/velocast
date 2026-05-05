@@ -1,7 +1,7 @@
-import { useRoute } from "../../contexts/RouteContext";
 import { parseDistanceToFetchPoints } from "../../helpers/parseDistanceToFetchPoints";
 import { processGpx } from "../../helpers/processGpx";
 import { lineString } from "@turf/turf";
+import { useRoute } from "../../hooks/useRoute";
 
 export function GpxInput() {
   const { setWeatherFetchPoints, setDistance, setGpxUrl, setGpxLines } =

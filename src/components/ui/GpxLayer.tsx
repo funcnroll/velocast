@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet-gpx";
-import { useRoute } from "../../contexts/RouteContext";
+import { useRoute } from "../../hooks/useRoute";
 
 export default function GpxLayer() {
   const { gpxUrl } = useRoute();

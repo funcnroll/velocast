@@ -1,11 +1,11 @@
 import Bottleneck from "bottleneck";
-import { useRoute } from "../../contexts/RouteContext";
 import { fetchWeatherData } from "../../helpers/fetchWeatherData";
 import { scoreWeatherConditions } from "../../helpers/scoreWeatherConditions";
 import { useEffect } from "react";
 import type { WeatherData } from "../../types/WeatherData";
 import type { LatLon } from "../../types/LatLon";
 import { green, red, yellow } from "../../config/colors";
+import { useRoute } from "../../hooks/useRoute";
 
 function ShowWeather() {
   const { etaArr, riderProfile, setData, setIsLoading, sidebarData } =
