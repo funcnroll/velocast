@@ -89,6 +89,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setGpxLines,
         sidebarData,
         setSidebarData,
+        setError,
+        error,
       }}
     >
       {children}
