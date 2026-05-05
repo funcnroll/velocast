@@ -55,6 +55,7 @@ function MapWeatherWaypoints() {
     });
 
     return () => {
+      setError("");
       polylines.forEach((p) => p.remove());
     };
   }, [data, map, gpxLines, weatherFetchPoints, setSidebarData, setError]);

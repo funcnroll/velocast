@@ -8,8 +8,16 @@ import { green, red, yellow } from "../../config/colors";
 import { useRoute } from "../../hooks/useRoute";
 
 function ShowWeather() {
-  const { etaArr, riderProfile, setData, setIsLoading, sidebarData } =
-    useRoute();
+  const {
+    etaArr,
+    riderProfile,
+    setData,
+    setIsLoading,
+    sidebarData,
+    error,
+    gpxLines,
+    setError,
+  } = useRoute();
 
   useEffect(() => {
     const limiter = new Bottleneck({
@@ -20,23 +28,34 @@ function ShowWeather() {
     let cancelled = false;
 
     async function run() {
+      setError("");
       setIsLoading(true);
-      const fetchData = etaArr.map((waypoint) => {
-        return limiter.schedule(() =>
-          // OpenMeteo expects [lat, lon], so its flipped here from internal [lon, lat] storage
-          fetchWeatherData(waypoint.coord[1], waypoint.coord[0], waypoint.eta),
-        );
-      });
+      try {
+        const fetchData = etaArr.map((waypoint) => {
+          return limiter.schedule(() =>
+            fetchWeatherData(
+              waypoint.coord[1],
+              waypoint.coord[0],
+              waypoint.eta,
+            ),
+          );
+        });
 
-      const results: WeatherData[] = await Promise.all(fetchData);
+        const results: WeatherData[] = await Promise.all(fetchData);
 
-      if (!cancelled && results) {
-        const scoredData = results.map((result, i) => ({
-          ...scoreWeatherConditions(result, riderProfile),
-          coord: etaArr[i].coord as LatLon,
-        }));
-        setData(scoredData);
-        setIsLoading(false);
+        if (!cancelled && results) {
+          const scoredData = results.map((result, i) => ({
+            ...scoreWeatherConditions(result, riderProfile),
+            coord: etaArr[i].coord as LatLon,
+          }));
+          setData(scoredData);
+          setIsLoading(false);
+        }
+      } catch {
+        if (!cancelled) {
+          setError("Failed to fetch weather data. Please try again.");
+          setIsLoading(false);
+        }
       }
     }
 
@@ -45,14 +64,18 @@ function ShowWeather() {
       cancelled = true;
       setIsLoading(false);
     };
-  }, [etaArr, riderProfile, setData, setIsLoading]);
+  }, [etaArr, riderProfile, setData, setIsLoading, setError]);
 
-  if (!sidebarData)
+  if (!gpxLines && !error) return null;
+
+  if (!sidebarData && !error)
     return (
       <p className="text-zinc-400 text-sm">
         Click a segment to see weather details.
       </p>
     );
+
+  if (error) return <div>{error}</div>;
 
   const verdictColor =
     sidebarData.verdict === "green"
