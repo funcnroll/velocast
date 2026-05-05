@@ -2,6 +2,7 @@ import { parseDistanceToFetchPoints } from "../../helpers/parseDistanceToFetchPo
 import { processGpx } from "../../helpers/processGpx";
 import { lineString } from "@turf/turf";
 import { useRoute } from "../../hooks/useRoute";
+import type { LatLon } from "../../types/LatLon";
 
 export function GpxInput() {
   const { setWeatherFetchPoints, setDistance, setGpxUrl, setGpxLines } =
@@ -21,7 +22,7 @@ export function GpxInput() {
 
     const line = lineString(waypoints.map((wp) => wp.coord));
 
-    setGpxLines(line.geometry.coordinates);
+    setGpxLines(line.geometry.coordinates as LatLon[]);
 
     const weatherFetchPointsArr = parseDistanceToFetchPoints(distance, line);
 
