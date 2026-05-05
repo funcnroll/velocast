@@ -39,6 +39,7 @@ export function useWeatherFetch() {
             results.map((result, i) => ({
               ...scoreWeatherConditions(result, riderProfile),
               coord: etaArr[i].coord as LatLon,
+              eta: etaArr[i].eta,
             })),
           );
           setIsLoading(false);

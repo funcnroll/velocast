@@ -62,6 +62,17 @@ function ShowWeather() {
         </span>
       </div>
       <p className="text-sm text-zinc-400">{sidebarData.message}</p>
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-medium text-zinc-300">ETA</span>
+        <span className="text-sm text-zinc-300">
+          {sidebarData.eta
+            ? sidebarData.eta.toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "—"}
+        </span>
+      </div>
       <div>
         <p>Composed of:</p>
         <ul>

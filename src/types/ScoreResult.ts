@@ -7,4 +7,5 @@ export type ScoreResult = {
   message: string;
   breakdown?: WeatherData;
   coord?: LatLon; //  Point of the intervalKm
+  eta?: Date;
 };
