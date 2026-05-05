@@ -5,28 +5,47 @@ import { useRoute } from "../../hooks/useRoute";
 import type { LatLon } from "../../types/LatLon";
 
 export function GpxInput() {
-  const { setWeatherFetchPoints, setDistance, setGpxUrl, setGpxLines } =
-    useRoute();
+  const {
+    setWeatherFetchPoints,
+    setDistance,
+    setGpxUrl,
+    setGpxLines,
+    setError,
+  } = useRoute();
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
 
     if (!file) return;
 
-    const gpxText = await file.text();
+    try {
+      const gpxText = await file.text();
 
-    const { waypoints, distance } = processGpx(gpxText);
+      if (!gpxText || !gpxText.length) {
+        setError("Invalid GPX File");
+        return;
+      }
 
-    setDistance(distance);
-    setGpxUrl(URL.createObjectURL(file));
+      const { waypoints, distance } = processGpx(gpxText);
 
-    const line = lineString(waypoints.map((wp) => wp.coord));
+      if (!waypoints.length) {
+        setError("GPX file contains no track points");
+        return;
+      }
 
-    setGpxLines(line.geometry.coordinates as LatLon[]);
+      setDistance(distance);
+      setGpxUrl(URL.createObjectURL(file));
 
-    const weatherFetchPointsArr = parseDistanceToFetchPoints(distance, line);
+      const line = lineString(waypoints.map((wp) => wp.coord));
 
-    setWeatherFetchPoints(weatherFetchPointsArr);
+      setGpxLines(line.geometry.coordinates as LatLon[]);
+
+      const weatherFetchPointsArr = parseDistanceToFetchPoints(distance, line);
+
+      setWeatherFetchPoints(weatherFetchPointsArr);
+    } catch {
+      setError("Failed to parse GPX file. Make sure it's a valid GPX");
+    }
   }
 
   return (
