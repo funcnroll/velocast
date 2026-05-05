@@ -10,12 +10,16 @@ import type { RouteContextType } from "../types/RouteContextType";
 // TODO: refactor routecontext, way too many unrelated pieces, too unorganised
 export const RouteContext = createContext<RouteContextType | null>(null);
 
+// Avoid re-render, thus not sending too many requests to Open-Meteo
+const initialDepartureTime = new Date();
+
 export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [weatherFetchPoints, setWeatherFetchPoints] = useState<
     Feature<Point>[]
   >([]);
   const [distance, setDistance] = useState(0);
-  const [departureTime, setDepartureTime] = useState<Date>(new Date());
+  const [departureTime, setDepartureTime] =
+    useState<Date>(initialDepartureTime);
   const [speed, setSpeed] = useState<number>(20);
   const [riderProfile, setRiderProfile] = useState<RiderProfileType>("casual");
   const [data, setData] = useState<ScoreResult[]>([]);
