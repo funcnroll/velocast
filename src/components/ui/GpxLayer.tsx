@@ -10,12 +10,14 @@ export default function GpxLayer() {
   const map = useMap();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const gpx = new (L as any).GPX(gpxUrl, {
       async: true,
       polyline_options: {
         opacity: 0,
         color: "transparent",
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }).on("loaded", (e: any) => {
       map.fitBounds(e.target.getBounds(), { padding: [40, 40] });
     });
