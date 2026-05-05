@@ -17,6 +17,7 @@ export function scoreWeatherConditions(
     wind_speed_10m,
     wind_gusts_10m,
     uv_index,
+    wind_direction_10m,
   } = weatherData;
 
   const { windMultiplier, tempMultiplier, rainMultiplier } =
@@ -26,10 +27,21 @@ export function scoreWeatherConditions(
   let message: string = "";
   const messages: string[] = [];
 
+  const breakdown = {
+    apparent_temp,
+    precipitation_probability,
+    rain,
+    weather_code,
+    wind_speed_10m,
+    wind_gusts_10m,
+    uv_index,
+    wind_direction_10m,
+  };
+
   //  Weather code (hard override)
   const codeResult = scoreWeatherCode(weather_code);
   if (codeResult.verdict === "red") {
-    return { score: 0, verdict: "red", message: codeResult.message };
+    return { score: 0, verdict: "red", message: codeResult.message, breakdown };
   }
 
   // Yellow codes reduce score but allow individual codes to influence final verdict
@@ -143,15 +155,6 @@ export function scoreWeatherConditions(
 
   const verdict: "green" | "yellow" | "red" =
     score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
-
-  const breakdown = {
-    apparent_temp,
-    precipitation_probability,
-    rain,
-    weather_code,
-    wind_speed_10m,
-    wind_gusts_10m,
-  };
 
   if (messages.length > 0) {
     message = messages.join(" ");
