@@ -30,7 +30,7 @@ export function scoreWeatherCode(code: number): WeatherCodeResult {
       return {
         verdict: "yellow",
         message: "Light/moderate drizzle. Roads may be slippery.",
-        score: -10,
+        score: -5,
       };
 
     // Heavy drizzle
@@ -39,6 +39,7 @@ export function scoreWeatherCode(code: number): WeatherCodeResult {
         verdict: "yellow",
         message:
           "Heavy drizzle. Wet roads and reduced visibility, but manageable.",
+        score: -10,
       };
 
     // Freezing drizzle
@@ -54,6 +55,7 @@ export function scoreWeatherCode(code: number): WeatherCodeResult {
       return {
         verdict: "yellow",
         message: "Slight rain. Dress accordingly.",
+        score: -8,
       };
 
     // Moderate / heavy rain
@@ -88,6 +90,7 @@ export function scoreWeatherCode(code: number): WeatherCodeResult {
       return {
         verdict: "yellow",
         message: "Rain showers. May pass quickly, but expect wet roads.",
+        score: -10,
       };
 
     // Violent rain showers
