@@ -9,6 +9,7 @@ import ShowWeatherError from "./ShowWeatherUI/ShowWeatherStates/ShowWeatherError
 import ShowWeatherSegmentInspect from "./ShowWeatherUI/ShowWeatherStates/ShowWeatherSegmentInspect";
 import ShowWeatherScoreVerdict from "./ShowWeatherUI/ShowWeatherScoreVerdict";
 import ShowWeatherETA from "./ShowWeatherUI/ShowWeatherEta";
+import ShowWeatherAdvisory from "./ShowWeatherUI/ShowWeatherAdvisory";
 
 function ShowWeather() {
   useWeatherFetch();
@@ -64,10 +65,7 @@ function ShowWeather() {
 
       {sidebarData.eta && <ShowWeatherETA eta={sidebarData.eta} />}
 
-      {/* advisory message */}
-      <p className="text-sm text-zinc-400 leading-relaxed px-1">
-        {sidebarData.message}
-      </p>
+      <ShowWeatherAdvisory message={sidebarData.message} />
 
       {/* breakdown */}
       <div className="rounded-lg bg-zinc-900/60 p-3">

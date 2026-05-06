@@ -24,7 +24,7 @@ export function scoreWeatherConditions(
     profileConfig[profile];
 
   let score = 100;
-  let message: string = "";
+  let message: string | string[] = "";
   const messages: string[] = [];
 
   const breakdown = {
@@ -159,7 +159,7 @@ export function scoreWeatherConditions(
     score >= 75 ? "green" : score >= 40 ? "yellow" : "red";
 
   if (messages.length > 0) {
-    message = messages.join(" ");
+    message = messages;
   }
 
   // red
