@@ -4,6 +4,7 @@ import type { ScoreResult } from "../types/ScoreResult";
 import type { WeatherData } from "../types/WeatherData";
 import { scoreWeatherCode } from "./scoreWeatherCode";
 import { calculateScorePenalty } from "./calculateScorePenalty";
+import type { AdvisoryMessage } from "../types/AdvisoryMessage";
 
 export function scoreWeatherConditions(
   weatherData: WeatherData,
@@ -24,8 +25,8 @@ export function scoreWeatherConditions(
     profileConfig[profile];
 
   let score = 100;
-  let message: string | string[] = "";
-  const messages: string[] = [];
+  let message: string | AdvisoryMessage[] = "";
+  const messages: AdvisoryMessage[] = [];
 
   const breakdown = {
     apparent_temp,
@@ -46,7 +47,7 @@ export function scoreWeatherConditions(
 
   // Yellow codes reduce score but allow individual codes to influence final verdict
   if (codeResult.verdict === "yellow") {
-    messages.push(codeResult.message);
+    messages.push({ text: codeResult.message, severity: "yellow" });
     if (codeResult.score) score -= codeResult.score;
   }
 
@@ -67,8 +68,13 @@ export function scoreWeatherConditions(
   );
   score -= windPenalty;
 
-  if (wind_speed_10m > 30) messages.push("Strong winds. Expect resistance.");
-  else if (wind_speed_10m > 15) messages.push("Moderate winds.");
+  if (wind_speed_10m > 30)
+    messages.push({
+      text: "Strong winds. Expect resistance.",
+      severity: "yellow",
+    });
+  else if (wind_speed_10m > 15)
+    messages.push({ text: "Moderate winds.", severity: "info" });
 
   //  Wind gusts (max 30 points)
   const gustPenalty = calculateScorePenalty(
@@ -81,8 +87,12 @@ export function scoreWeatherConditions(
   score -= gustPenalty;
 
   if (wind_gusts_10m > 50)
-    messages.push("Dangerous gusts. Stay alert or reconsider.");
-  else if (wind_gusts_10m > 35) messages.push("Occasional strong gusts.");
+    messages.push({
+      text: "Dangerous gusts. Stay alert or reconsider.",
+      severity: "red",
+    });
+  else if (wind_gusts_10m > 35)
+    messages.push({ text: "Occasional strong gusts.", severity: "yellow" });
 
   //  Apparent temperature (max 40 points)
   // Accounting for cold and heat separately
@@ -106,12 +116,22 @@ export function scoreWeatherConditions(
     );
   }
 
-  if (apparent_temp < 5) messages.push("Very cold. Layer up.");
-  else if (apparent_temp < 10) messages.push("Cold. A jacket is recommended.");
+  if (apparent_temp < 5)
+    messages.push({ text: "Very cold. Layer up.", severity: "red" });
+  else if (apparent_temp < 10)
+    messages.push({
+      text: "Cold. A jacket is recommended.",
+      severity: "yellow",
+    });
   else if (apparent_temp > 10 && apparent_temp < 12)
-    messages.push("Slightly cool. Consider a light layer");
-  else if (apparent_temp > 30) messages.push("Very hot. Stay hydrated.");
-  else if (apparent_temp > 23) messages.push("Warm. Stay hydrated.");
+    messages.push({
+      text: "Slightly cool. Consider a light layer.",
+      severity: "info",
+    });
+  else if (apparent_temp > 30)
+    messages.push({ text: "Very hot. Stay hydrated.", severity: "red" });
+  else if (apparent_temp > 23)
+    messages.push({ text: "Warm. Stay hydrated.", severity: "yellow" });
 
   //  Rain (max 20 points)
   const rainPenalty = calculateScorePenalty(
@@ -123,11 +143,15 @@ export function scoreWeatherConditions(
   );
   score -= rainPenalty;
 
-  if (rain > 5) messages.push("Heavy rain. Very wet roads.");
-  else if (rain > 2 && codeResult.verdict === "green")
-    messages.push("Moderate rain.");
+  if (rain >= 5)
+    messages.push({ text: "Heavy rain. Very wet roads.", severity: "red" });
+  else if (rain >= 1.5 && codeResult.verdict === "green")
+    messages.push({ text: "Moderate rain.", severity: "yellow" });
   else if (rain > 0 && codeResult.verdict === "green")
-    messages.push("Light rain. Roads may be slippery.");
+    messages.push({
+      text: "Light rain. Roads may be slippery.",
+      severity: "info",
+    });
 
   //  Precipitation probability (max 10 points)
   // If no rain is recorded, there may still theoretically be a precipitation chance.
@@ -142,15 +166,27 @@ export function scoreWeatherConditions(
     score -= precipPenalty;
 
     if (precipitation_probability > 70)
-      messages.push("High chance of rain. Consider waterproofs.");
+      messages.push({
+        text: "High chance of rain. Consider waterproofs.",
+        severity: "yellow",
+      });
     else if (precipitation_probability > 40)
-      messages.push("Some chance of rain.");
+      messages.push({ text: "Some chance of rain.", severity: "info" });
   }
 
   //  UV advisory (no score impact)
-  if (uv_index >= 8) messages.push("Very high UV. Sun protection essential.");
-  else if (uv_index >= 6) messages.push("High UV. Consider sunscreen.");
-  else if (uv_index >= 3) messages.push("Moderate UV. Consider sunscreen.");
+  if (uv_index >= 8)
+    messages.push({
+      text: "Very high UV. Sun protection essential.",
+      severity: "red",
+    });
+  else if (uv_index >= 6)
+    messages.push({ text: "High UV. Consider sunscreen.", severity: "yellow" });
+  else if (uv_index >= 3)
+    messages.push({
+      text: "Moderate UV. Consider sunscreen.",
+      severity: "info",
+    });
 
   // clamp score between 0-100
   score = Math.max(0, Math.min(100, Math.round(score)));
