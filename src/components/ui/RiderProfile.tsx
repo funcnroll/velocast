@@ -28,7 +28,7 @@ function RiderProfile() {
     <CategoryDiv>
       <CategoryTitle>Rider Profile</CategoryTitle>
 
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         {profiles.map(({ value, label, description }) => {
           const active = riderProfile === value;
           return (

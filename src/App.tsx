@@ -21,8 +21,8 @@ function AppInner() {
   const { gpxUrl } = useRoute();
 
   return (
-    <div className="flex h-screen w-screen bg-zinc-900">
-      <div className="flex-1">
+    <div className="flex flex-col lg:flex-row lg:h-screen w-screen bg-zinc-900">
+      <div className="w-full h-[50vh] lg:h-auto lg:flex-1">
         <MapContainer
           // Center of Germany as default zoom
           center={[51.1657, 10.4515]}
@@ -39,7 +39,7 @@ function AppInner() {
         </MapContainer>
       </div>
 
-      <div className="w-lg bg-zinc-800 border-l border-zinc-700 p-4 text-white">
+      <div className="w-full lg:w-96 xl:w-[28rem] bg-zinc-800 border-t lg:border-t-0 lg:border-l border-zinc-700 p-4 text-white lg:overflow-y-auto lg:h-screen">
         <GpxInput />
         <DepartureTime />
         <RiderProfile />
