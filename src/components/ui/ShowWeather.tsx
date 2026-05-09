@@ -10,11 +10,14 @@ import ShowWeatherSegmentInspect from "./ShowWeatherUI/ShowWeatherStates/ShowWea
 import ShowWeatherScoreVerdict from "./ShowWeatherUI/ShowWeatherScoreVerdict";
 import ShowWeatherETA from "./ShowWeatherUI/ShowWeatherEta";
 import ShowWeatherAdvisory from "./ShowWeatherUI/ShowWeatherAdvisory";
+import { useMobileToasts } from "../../hooks/useMobileToasts";
 
 function ShowWeather() {
   useWeatherFetch();
 
-  const { sidebarData, error, gpxLines, isLoading } = useRoute();
+  const { sidebarData, error, gpxLines, isLoading, hasLoaded } = useRoute();
+
+  useMobileToasts(sidebarData, isLoading, hasLoaded, error);
 
   if (!gpxLines && !error) return null;
 

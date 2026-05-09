@@ -8,6 +8,7 @@ import ShowWeather from "./components/ui/ShowWeather";
 import RiderProfile from "./components/ui/RiderProfile";
 import MapWeatherWaypoints from "./components/ui/MapWeatherWaypoints";
 import { useRoute } from "./hooks/useRoute";
+import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (
@@ -22,6 +23,8 @@ function AppInner() {
 
   return (
     <div className="flex flex-col lg:flex-row lg:h-screen w-screen bg-zinc-900">
+      <Toaster position="bottom-center" />
+
       <div className="w-full h-[50vh] lg:h-auto lg:flex-1">
         <MapContainer
           // Center of Germany as default zoom

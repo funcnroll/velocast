@@ -1,4 +1,3 @@
-// hooks/useWeatherFetch.ts
 import { useEffect } from "react";
 import Bottleneck from "bottleneck";
 import { fetchWeatherData } from "../helpers/fetchWeatherData";
@@ -8,7 +7,14 @@ import type { LatLon } from "../types/LatLon";
 import { useRoute } from "./useRoute";
 
 export function useWeatherFetch() {
-  const { etaArr, riderProfile, setData, setIsLoading, setError } = useRoute();
+  const {
+    etaArr,
+    riderProfile,
+    setData,
+    setIsLoading,
+    setError,
+    setHasLoaded,
+  } = useRoute();
 
   useEffect(() => {
     const limiter = new Bottleneck({
@@ -20,6 +26,7 @@ export function useWeatherFetch() {
     async function run() {
       setError("");
       setIsLoading(true);
+      setHasLoaded(false);
 
       const maxForecastTime = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
       const lastEta = etaArr.at(-1)?.eta;
@@ -56,11 +63,13 @@ export function useWeatherFetch() {
             })),
           );
           setIsLoading(false);
+          setHasLoaded(true);
         }
       } catch {
         if (!cancelled) {
           setError("Failed to fetch weather data. Please try again.");
           setIsLoading(false);
+          setHasLoaded(false);
         }
       }
     }
@@ -70,5 +79,5 @@ export function useWeatherFetch() {
       cancelled = true;
       setIsLoading(false);
     };
-  }, [etaArr, riderProfile, setData, setIsLoading, setError]);
+  }, [etaArr, riderProfile, setData, setIsLoading, setError, setHasLoaded]);
 }

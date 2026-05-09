@@ -7,7 +7,6 @@ import type { LatLon } from "../types/LatLon";
 import type { Feature, Point } from "geojson";
 import type { RouteContextType } from "../types/RouteContextType";
 
-// TODO: refactor routecontext, way too many unrelated pieces, too unorganised
 export const RouteContext = createContext<RouteContextType | null>(null);
 
 // Avoid creation on each re-render by setting this on the outside , thus not sending too many requests to Open-Meteo
@@ -29,6 +28,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [gpxLines, setGpxLines] = useState<LatLon[] | null>(null);
   const [sidebarData, setSidebarData] = useState<ScoreResult | null>(null);
   const [error, setError] = useState<string>("");
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -69,6 +69,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         setSidebarData,
         setError,
         error,
+        hasLoaded,
+        setHasLoaded,
       }}
     >
       {children}

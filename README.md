@@ -6,10 +6,20 @@ Upload a GPX file, set your speed and departure time, and see the weather condit
 
 ## Tech
 
-- React + TypeScript
+- React
+- TypeScript
+- Vite
 - Leaflet
+- react-leaflet
+- Tailwind CSS
 - Turf.js
+- Leaflet-gpx
 - Open-Meteo API
-- Gpx.js
 - Bottleneck
-- UseHooks
+- date-fns
+- react-hot-toast
+- useHooks
+
+## Note
+
+UI development & small refactors assisted with Claude (Anthropic)

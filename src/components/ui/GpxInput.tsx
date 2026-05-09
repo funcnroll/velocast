@@ -1,4 +1,3 @@
-// GpxInput.tsx
 import { parseDistanceToFetchPoints } from "../../helpers/parseDistanceToFetchPoints";
 import { processGpx } from "../../helpers/processGpx";
 import { lineString } from "@turf/turf";

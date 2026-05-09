@@ -1,4 +1,3 @@
-// DepartureTime.tsx
 import { useRoute } from "../../hooks/useRoute";
 import CategoryDiv from "./general/CategoryDiv";
 import CategoryTitle from "./general/CategoryTitle";

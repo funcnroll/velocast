@@ -29,4 +29,6 @@ export type RouteContextType = {
   setSidebarData: (sidebarData: ScoreResult) => void;
   error: string;
   setError: (error: string) => void;
+  hasLoaded: boolean;
+  setHasLoaded: (hasLoaded: boolean) => void;
 };
