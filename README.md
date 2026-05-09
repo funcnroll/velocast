@@ -22,4 +22,5 @@ Upload a GPX file, set your speed and departure time, and see the weather condit
 
 ## Note
 
+Core logic (GPX processing, rate limiting, weather calculations and processing etc.) written entirely by hand.
 UI development & small refactors assisted with Claude (Anthropic)
