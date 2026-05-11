@@ -79,5 +79,6 @@ export function useWeatherFetch() {
       cancelled = true;
       setIsLoading(false);
     };
+    // NOTE: riderProfile triggers unnecessary refetch, but keeping it simple with one effect outweighs optimizing with extra state + effect
   }, [etaArr, riderProfile, setData, setIsLoading, setError, setHasLoaded]);
 }
