@@ -6,8 +6,13 @@ import { lineSlice, lineString } from "@turf/turf";
 import { useRoute } from "../../hooks/useRoute";
 
 function MapWeatherWaypoints() {
-  const { data, gpxLines, weatherFetchPoints, setSidebarData, setError } =
-    useRoute();
+  const {
+    data,
+    gpxLines,
+    weatherFetchPoints,
+    setSelectedSegmentIndex,
+    setError,
+  } = useRoute();
   const map = useMap();
 
   useEffect(() => {
@@ -65,7 +70,8 @@ function MapWeatherWaypoints() {
         weight: 6,
         opacity: 1,
       })
-        .on("click", () => setSidebarData(data[i]))
+        .on("click", () => setSelectedSegmentIndex(i))
+
         .addTo(map);
     });
 
@@ -74,7 +80,14 @@ function MapWeatherWaypoints() {
       polylines.forEach((p) => p.remove());
       markers.forEach((m) => m.remove());
     };
-  }, [data, map, gpxLines, weatherFetchPoints, setSidebarData, setError]);
+  }, [
+    data,
+    map,
+    gpxLines,
+    weatherFetchPoints,
+    setSelectedSegmentIndex,
+    setError,
+  ]);
 
   return <div></div>;
 }

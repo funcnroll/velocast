@@ -26,9 +26,10 @@ export type RouteContextType = {
   gpxLines: LatLon[] | null;
   setGpxLines: (gpxLine: LatLon[] | null) => void;
   sidebarData: ScoreResult | null;
-  setSidebarData: (sidebarData: ScoreResult) => void;
   error: string;
   setError: (error: string) => void;
   hasLoaded: boolean;
   setHasLoaded: (hasLoaded: boolean) => void;
+  selectedSegmentIndex: number;
+  setSelectedSegmentIndex: (selectedSegmentIndex: number) => void;
 };

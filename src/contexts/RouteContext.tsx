@@ -26,9 +26,9 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [gpxUrl, setGpxUrl] = useState<string>("");
   const [gpxLines, setGpxLines] = useState<LatLon[] | null>(null);
-  const [sidebarData, setSidebarData] = useState<ScoreResult | null>(null);
   const [error, setError] = useState<string>("");
   const [hasLoaded, setHasLoaded] = useState(false);
+  const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(0);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -41,6 +41,8 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
       return { coord: coords, eta: new Date(etaMs) };
     });
   }, [departureTime, debouncedSpeed, weatherFetchPoints]);
+
+  const sidebarData = data.length > 0 ? data[selectedSegmentIndex] : null;
 
   return (
     <RouteContext
@@ -66,11 +68,13 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
         gpxLines,
         setGpxLines,
         sidebarData,
-        setSidebarData,
+
         setError,
         error,
         hasLoaded,
         setHasLoaded,
+        selectedSegmentIndex,
+        setSelectedSegmentIndex,
       }}
     >
       {children}
