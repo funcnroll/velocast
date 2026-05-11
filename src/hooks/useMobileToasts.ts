@@ -23,46 +23,41 @@ export function useMobileToasts(
   // TODO: Fix: isLoading and hasLoaded toasts appear on initial render and other unrelated state changes
 
   useEffect(() => {
-    // on sidebar change
-    if (sidebarData !== prevSideBar.current) {
-      if (prevSideBar.current !== null) {
-        if (isMobile())
-          toast("Segment updated", {
-            icon: "🟢",
-            duration: 2500,
-            style: toastStyle,
-          });
-      }
-      prevSideBar.current = sidebarData;
-    }
+    // changes should be tracked first
+    const errorChanged = error !== prevError.current;
+    const sidebarChanged = sidebarData !== prevSideBar.current;
+    const isLoadingChanged = isLoading !== prevIsLoading.current;
+    const hasLoadedChanged = hasLoaded !== prevHasLoaded.current;
 
-    // on isLoading change
-    if (isLoading !== prevIsLoading.current) {
-      prevIsLoading.current = isLoading;
-      if (isLoading && isMobile())
-        toast("Loading data", {
-          icon: "🟡",
-          duration: 1500,
-          style: toastStyle,
-        });
-    }
+    // immediately update refs to prevent duplicates
+    if (errorChanged) prevError.current = error;
+    if (sidebarChanged) prevSideBar.current = sidebarData;
+    if (isLoadingChanged) prevIsLoading.current = isLoading;
+    if (hasLoadedChanged) prevHasLoaded.current = hasLoaded;
 
-    // on hasLoaded change
-    if (hasLoaded !== prevHasLoaded.current) {
-      prevHasLoaded.current = hasLoaded;
-      if (hasLoaded && !isLoading && isMobile())
-        toast("Data loaded", {
-          icon: "✅",
-          duration: 2000,
-          style: toastStyle,
-        });
-    }
+    if (!isMobile()) return;
 
-    // on error change
-    if (error !== prevError.current) {
-      prevError.current = error;
-      if (error && isMobile())
-        toast.error(error, { duration: 2500, style: toastStyle });
+    // priority: error -> loading -> loaded -> segment update
+    if (errorChanged && error) {
+      toast.error(error, { duration: 2500, style: toastStyle });
+    } else if (isLoadingChanged && isLoading) {
+      toast("Loading data", {
+        icon: "🟡",
+        duration: 1500,
+        style: toastStyle,
+      });
+    } else if (hasLoadedChanged && hasLoaded && !isLoading && !error) {
+      toast("Data loaded", {
+        icon: "✅",
+        duration: 2000,
+        style: toastStyle,
+      });
+    } else if (sidebarChanged && prevSideBar.current !== null) {
+      toast("Segment updated", {
+        icon: "🟢",
+        duration: 2500,
+        style: toastStyle,
+      });
     }
   }, [sidebarData, isLoading, hasLoaded, error]);
 }

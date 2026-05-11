@@ -4,6 +4,7 @@ import { useMap } from "react-leaflet";
 import { green, red, white, yellow } from "../../config/colors";
 import { lineSlice, lineString } from "@turf/turf";
 import { useRoute } from "../../hooks/useRoute";
+import { intervalKm } from "../../config/intervalKm";
 
 function MapWeatherWaypoints() {
   const {
@@ -30,7 +31,7 @@ function MapWeatherWaypoints() {
     // only accurate down to ~10km intervals, so short routes wouldn't give
     // meaningful weather insights in the first place
     if (weatherFetchPoints.length < 2) {
-      setError("Route too short - upload a route of at least 15km");
+      setError(`Route too short - upload a route of at least ${intervalKm}km`);
       return;
     }
 
