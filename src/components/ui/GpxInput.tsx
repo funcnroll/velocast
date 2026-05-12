@@ -18,10 +18,41 @@ export function GpxInput() {
   } = useRoute();
 
   const [isLoopRoute, setIsLoopRoute] = useState(false);
+  const [templateRouteLoaded, setTemplateRouteLoaded] = useState(false);
 
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0];
+  async function handleLoadTemplate() {
+    try {
+      const response = await fetch("/templateMap.gpx");
+
+      if (!response.ok) {
+        setError("Failed to load template GPX");
+        return;
+      }
+
+      const blob = await response.blob();
+
+      const file = new File([blob], "templateMap.gpx", {
+        type: "application/gpx+xml",
+      });
+
+      await handleFileChange(undefined, file);
+
+      setTemplateRouteLoaded(true);
+    } catch {
+      setError("Failed to load template GPX");
+    }
+  }
+
+  async function handleFileChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    templateFile?: File,
+  ) {
+    const file = templateFile || e.target.files?.[0];
     if (!file) return;
+
+    if (!templateFile) {
+      setTemplateRouteLoaded(false);
+    }
 
     try {
       const gpxText = await file.text();
@@ -90,6 +121,17 @@ export function GpxInput() {
           className="hidden"
         />
       </label>
+
+      {!templateRouteLoaded && (
+        <button
+          type="button"
+          onClick={handleLoadTemplate}
+          className="w-full py-2 rounded-lg bg-zinc-700 hover:bg-zinc-600 transition-colors text-sm text-zinc-200 cursor-pointer mt-4"
+        >
+          Load template route
+        </button>
+      )}
+
       {isLoopRoute && (
         <p className="text-xs text-zinc-500 mt-3">
           Loop route detected. The final segment back to the start is not
