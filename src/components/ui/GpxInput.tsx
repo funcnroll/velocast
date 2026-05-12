@@ -6,6 +6,7 @@ import type { LatLon } from "../../types/LatLon";
 import { useState } from "react";
 import { detectLoop } from "../../helpers/detectLoop";
 
+// TODO: refactor this component
 export function GpxInput() {
   const {
     setWeatherFetchPoints,
