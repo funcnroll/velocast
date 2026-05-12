@@ -20,8 +20,6 @@ export function useMobileToasts(
   const prevError = useRef(error);
   const prevHasLoaded = useRef(hasLoaded);
 
-  // TODO: Fix: isLoading and hasLoaded toasts appear on initial render and other unrelated state changes
-
   useEffect(() => {
     // changes should be tracked first
     const errorChanged = error !== prevError.current;

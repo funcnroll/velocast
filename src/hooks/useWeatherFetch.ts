@@ -17,6 +17,9 @@ export function useWeatherFetch() {
   } = useRoute();
 
   useEffect(() => {
+    // Prevent unnecessary fetch on mount
+    if (!etaArr.length) return;
+
     const limiter = new Bottleneck({
       minTime: 200,
       maxConcurrent: 5, // 25 requests/s
@@ -80,5 +83,6 @@ export function useWeatherFetch() {
       setIsLoading(false);
     };
     // NOTE: riderProfile triggers unnecessary refetch, but keeping it simple with one effect outweighs optimizing with extra state + effect
+    // It is not expected that riderProfile changes often, so optimization is unnecessary when considering the potential added complexity otherwise
   }, [etaArr, riderProfile, setData, setIsLoading, setError, setHasLoaded]);
 }
