@@ -1,26 +1,13 @@
 # Velocast
 
-Cycling route weather planner.
+Upload a GPX route, set your departure time, speed, along with your rider profile and get a scored weather forecast for each segment along your route as you'll actually encounter it.
 
-Upload a GPX file, set your speed and departure time, and see the weather conditions you'll actually encounter along the route.
+Built because existing tools either sit behind a paywall or surface raw data without telling you whether conditions are actually worth riding in.
 
-## Tech
+## Stack
 
-- React
-- TypeScript
-- Vite
-- Leaflet
-- react-leaflet
-- Tailwind CSS
-- Turf.js
-- Leaflet-gpx
-- Open-Meteo API
-- Bottleneck
-- date-fns
-- react-hot-toast
-- useHooks
+React, TypeScript, Vite, Leaflet, Tailwind CSS, Turf.js, Open-Meteo API, Bottleneck, date-fns, react-hot-toast, useHooks
 
-## Note
+## Notes
 
-Core logic (GPX processing, rate limiting, weather calculations and processing etc.) written entirely by hand.
-UI development & small refactors assisted with Claude (Anthropic)
+Core logic (GPX processing, rate limiting, weather scoring) written by hand. UI and minor refactors assisted by Claude (Anthropic).
