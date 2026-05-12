@@ -3,7 +3,7 @@ import CategoryDiv from "./general/CategoryDiv";
 import CategoryTitle from "./general/CategoryTitle";
 
 function DepartureTime() {
-  const { setDepartureTime } = useRoute();
+  const { setDepartureTime, departureTime } = useRoute();
 
   const now = new Date();
   const sevenDaysFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -16,7 +16,7 @@ function DepartureTime() {
         type="datetime-local"
         min={toDateTimeLocal(now)}
         max={toDateTimeLocal(sevenDaysFromNow)}
-        defaultValue={toDateTimeLocal(now)}
+        value={toDateTimeLocal(departureTime)}
         onChange={(e) => setDepartureTime(new Date(e.target.value))}
         className="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors"
       />

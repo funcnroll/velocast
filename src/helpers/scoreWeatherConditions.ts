@@ -48,7 +48,8 @@ export function scoreWeatherConditions(
   // Yellow codes reduce score but allow individual codes to influence final verdict
   if (codeResult.verdict === "yellow") {
     messages.push({ text: codeResult.message, severity: "yellow" });
-    if (codeResult.score) score -= codeResult.score;
+    // Scores are negative, so += decreases the score (-= would increase it)
+    if (codeResult.score) score += codeResult.score;
   }
 
   //  Wind speed (max 60 points, unless too fast)
@@ -57,6 +58,7 @@ export function scoreWeatherConditions(
       score: 0,
       verdict: "red",
       message: "Dangerous wind speeds. Riding not recommended.",
+      breakdown,
     };
   }
   const windPenalty = calculateScorePenalty(

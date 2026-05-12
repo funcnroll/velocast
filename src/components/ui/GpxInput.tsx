@@ -12,6 +12,7 @@ export function GpxInput() {
     setGpxLines,
     setError,
     gpxLines,
+    setSelectedSegmentIndex,
   } = useRoute();
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,6 +33,9 @@ export function GpxInput() {
         setError("GPX file contains no track points");
         return;
       }
+
+      setError("");
+      setSelectedSegmentIndex(0);
 
       setDistance(distance);
       setGpxUrl(URL.createObjectURL(file));
