@@ -1,7 +1,6 @@
 import { useGpxInput } from "../../hooks/useGpxInput";
 import { useRoute } from "../../hooks/useRoute";
 
-// TODO: refactor this component
 export function GpxInput() {
   const { gpxLines } = useRoute();
 
