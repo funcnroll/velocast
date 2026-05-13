@@ -34,6 +34,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
 
     return weatherFetchPoints.map((point, i) => {
+      // Coordinates are flipped to [Lat,Lon] as OpenMeteo uses this data format
       const coords = point.geometry.coordinates as LatLon;
       const distanceKm = i * intervalKm;
       const hoursToArrive = distanceKm / debouncedSpeed;

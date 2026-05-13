@@ -200,6 +200,7 @@ export function scoreWeatherConditions(
     message = messages;
   }
 
+  // handling edge cases
   // red
   if (messages.length === 0 && verdict !== "green" && verdict === "red") {
     message = `Poor conditions overall. Consider postponing.`;

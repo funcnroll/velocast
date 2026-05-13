@@ -10,6 +10,7 @@ export function parseDistanceToFetchPoints(
   const gpxDistanceInKm = distance / 1000;
   const weatherFetchPointsArr = [];
 
+  // Sampling each fetch point along fixed intervals
   while (currentDistanceinKm < gpxDistanceInKm) {
     const currentPoint = along(line, currentDistanceinKm);
     weatherFetchPointsArr.push(currentPoint);

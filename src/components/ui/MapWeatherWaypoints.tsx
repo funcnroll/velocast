@@ -22,6 +22,7 @@ function MapWeatherWaypoints() {
       !gpxLines ||
       !gpxLines.length ||
       !weatherFetchPoints.length ||
+      // ensuring that the data array and waypoint array are synced because they're handled by different processes
       data.length !== weatherFetchPoints.length
     )
       return;

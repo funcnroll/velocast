@@ -3,6 +3,7 @@ import { roundToNearestHours } from "date-fns/fp/roundToNearestHours";
 import type { WeatherData } from "../types/WeatherData";
 
 export async function fetchWeatherData(lat: number, lon: number, eta: Date) {
+  // Fetching a 7 day forecast with the appropriate data
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=precipitation_probability,apparent_temperature,rain,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index&timezone=auto&past_days=0&forecast_days=7`;
 
   const response = await fetch(url);
@@ -10,6 +11,7 @@ export async function fetchWeatherData(lat: number, lon: number, eta: Date) {
 
   const timezone = data.timezone as string;
 
+  // Using the provided eta, round to the nearest hour to find the matching index in OpenMeteo (0-168 in the given weather array)
   const dateStringRounded = roundToNearestHours(eta);
 
   const hourlyMatch = data.hourly.time.indexOf(

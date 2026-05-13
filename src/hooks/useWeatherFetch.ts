@@ -58,6 +58,7 @@ export function useWeatherFetch() {
         );
 
         if (!cancelled) {
+          // Only run if the current fetch is the "current" one/for the current GPX file
           setData(
             results.map((result, i) => ({
               ...scoreWeatherConditions(result, riderProfile),
@@ -79,7 +80,7 @@ export function useWeatherFetch() {
 
     run();
     return () => {
-      cancelled = true;
+      cancelled = true; // If a new GPX file is uploaded, mark the old fetch as stale so its results dont overwrite the new uploaded route
       setIsLoading(false);
     };
     // NOTE: riderProfile triggers unnecessary refetch, but keeping it simple with one effect outweighs optimizing with extra state + effect
