@@ -90,7 +90,7 @@ function MapWeatherWaypoints() {
     setError,
   ]);
 
-  return <div></div>;
+  return null;
 }
 
 export default MapWeatherWaypoints;
