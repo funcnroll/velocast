@@ -14,6 +14,7 @@ export function useGpxInput() {
     setGpxLines,
     setError,
     setSelectedSegmentIndex,
+    setData,
   } = useRoute();
 
   const [isLoopRoute, setIsLoopRoute] = useState(false);
@@ -68,8 +69,11 @@ export function useGpxInput() {
         return;
       }
 
+      // Ensure no stale data remains. without this data.length > 0 remains true and sidebarData could theoretically resolve to undefined if something goes wrong in the async process
       setError("");
+      setData([]);
       setSelectedSegmentIndex(0);
+
       setIsLoopRoute(detectLoop(waypoints));
 
       setDistance(distance);

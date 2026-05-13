@@ -42,6 +42,7 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
     });
   }, [departureTime, debouncedSpeed, weatherFetchPoints]);
 
+  // data is cleared on file change so this is null during any fetch and setSelectedSegmentIndex is set to 0, so there is no risk of undefined here
   const sidebarData = data.length > 0 ? data[selectedSegmentIndex] : null;
 
   return (
