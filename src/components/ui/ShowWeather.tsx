@@ -68,8 +68,10 @@ function ShowWeather() {
 
       {sidebarData.eta && <ShowWeatherETA eta={sidebarData.eta} />}
 
-      <ShowWeatherAdvisory message={sidebarData.message} />
-
+      <ShowWeatherAdvisory
+        message={sidebarData.message}
+        verdict={sidebarData.verdict}
+      />
       {/* breakdown */}
       <div className="rounded-lg bg-zinc-900/60 p-3">
         <p className="text-xs text-zinc-500 uppercase tracking-wide  mb-2">

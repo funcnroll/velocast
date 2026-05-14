@@ -3,12 +3,14 @@ import type { AdvisoryMessage } from "../../../types/AdvisoryMessage";
 
 function ShowWeatherAdvisory({
   message,
+  verdict,
 }: {
   message: string | AdvisoryMessage[];
+  verdict: "green" | "yellow" | "red";
 }) {
   const messages = Array.isArray(message)
     ? message
-    : [{ text: message, severity: "info" as const }];
+    : [{ text: message, severity: verdict }];
 
   return (
     <div className="flex flex-wrap gap-1.5 mb-4 px-1">

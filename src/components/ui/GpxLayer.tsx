@@ -17,7 +17,12 @@ export default function GpxLayer() {
         opacity: 0,
         color: "transparent",
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      marker_options: {
+        startIconUrl: "",
+        endIconUrl: "",
+        shadowUrl: "",
+        wptIconUrls: { "": "" },
+      },
     }).on("loaded", (e: any) => {
       map.fitBounds(e.target.getBounds(), { padding: [40, 40] });
     });
