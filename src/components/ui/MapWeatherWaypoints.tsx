@@ -38,9 +38,6 @@ function MapWeatherWaypoints() {
 
     const line = lineString(gpxLines);
 
-    // Loop routes: last segment (final waypoint back to start) is not drawn
-    // lineSlice can't go backwards along the line and the two-slice workaround
-    // adds complexity which is not worth the payoff.
     const segments = weatherFetchPoints.slice(0, -1).map((point, i) => {
       const start = point;
       const end = weatherFetchPoints[i + 1];
