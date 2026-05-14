@@ -23,6 +23,7 @@ export default function GpxLayer() {
         shadowUrl: "",
         wptIconUrls: { "": "" },
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     }).on("loaded", (e: any) => {
       map.fitBounds(e.target.getBounds(), { padding: [40, 40] });
     });

@@ -1,6 +1,5 @@
 import { lineString } from "@turf/turf";
 import { parseDistanceToFetchPoints } from "../helpers/parseDistanceToFetchPoints";
-import { detectLoop } from "../helpers/detectLoop";
 import { processGpx } from "../helpers/processGpx";
 import { useState } from "react";
 import { useRoute } from "./useRoute";
@@ -17,7 +16,6 @@ export function useGpxInput() {
     setData,
   } = useRoute();
 
-  const [isLoopRoute, setIsLoopRoute] = useState(false);
   const [templateRouteLoaded, setTemplateRouteLoaded] = useState(false);
 
   async function handleLoadTemplate() {
@@ -74,8 +72,6 @@ export function useGpxInput() {
       setData([]);
       setSelectedSegmentIndex(0);
 
-      setIsLoopRoute(detectLoop(waypoints));
-
       setDistance(distance);
       setGpxUrl(URL.createObjectURL(file));
 
@@ -90,7 +86,6 @@ export function useGpxInput() {
   }
 
   return {
-    isLoopRoute,
     templateRouteLoaded,
     handleLoadTemplate,
     handleFileChange,

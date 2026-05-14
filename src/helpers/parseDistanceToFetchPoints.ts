@@ -17,5 +17,9 @@ export function parseDistanceToFetchPoints(
     currentDistanceinKm += intervalKm;
   }
 
+  // Always add the actual end of the route as the final point
+  const endPoint = along(line, gpxDistanceInKm);
+  weatherFetchPointsArr.push(endPoint);
+
   return weatherFetchPointsArr;
 }

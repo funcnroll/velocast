@@ -4,12 +4,8 @@ import { useRoute } from "../../hooks/useRoute";
 export function GpxInput() {
   const { gpxLines } = useRoute();
 
-  const {
-    isLoopRoute,
-    templateRouteLoaded,
-    handleLoadTemplate,
-    handleFileChange,
-  } = useGpxInput();
+  const { templateRouteLoaded, handleLoadTemplate, handleFileChange } =
+    useGpxInput();
 
   return (
     <div>
@@ -55,13 +51,6 @@ export function GpxInput() {
         >
           Load template route
         </button>
-      )}
-
-      {isLoopRoute && (
-        <p className="text-xs text-zinc-500 mt-3">
-          Loop route detected. The final segment back to the start is not
-          visualised.
-        </p>
       )}
     </div>
   );
