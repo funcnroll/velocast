@@ -30,6 +30,6 @@ export type RouteContextType = {
   setError: (error: string) => void;
   hasLoaded: boolean;
   setHasLoaded: (hasLoaded: boolean) => void;
-  selectedSegmentIndex: number;
-  setSelectedSegmentIndex: (selectedSegmentIndex: number) => void;
+  selectedSegmentIndex: number | null;
+  setSelectedSegmentIndex: (selectedSegmentIndex: number | null) => void;
 };

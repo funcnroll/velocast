@@ -70,7 +70,7 @@ export function useGpxInput() {
       // Ensure no stale data remains. without this data.length > 0 remains true and sidebarData could theoretically resolve to undefined if something goes wrong in the async process
       setError("");
       setData([]);
-      setSelectedSegmentIndex(0);
+      setSelectedSegmentIndex(null);
 
       setDistance(distance);
       setGpxUrl(URL.createObjectURL(file));
