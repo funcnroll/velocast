@@ -38,6 +38,7 @@ function MapWeatherWaypoints() {
 
     const line = lineString(gpxLines);
 
+    // Create a segment for every waypoint
     const segments = weatherFetchPoints.slice(0, -1).map((point, i) => {
       const start = point;
       const end = weatherFetchPoints[i + 1];
