@@ -28,7 +28,9 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   const [gpxLines, setGpxLines] = useState<LatLon[] | null>(null);
   const [error, setError] = useState<string>("");
   const [hasLoaded, setHasLoaded] = useState(false);
-  const [selectedSegmentIndex, setSelectedSegmentIndex] = useState(0);
+  const [selectedSegmentIndex, setSelectedSegmentIndex] = useState<
+    number | null
+  >(0);
 
   const etaArr = useMemo(() => {
     if (!weatherFetchPoints.length || !debouncedSpeed) return [];
@@ -44,7 +46,10 @@ export function RouteProvider({ children }: { children: React.ReactNode }) {
   }, [departureTime, debouncedSpeed, weatherFetchPoints]);
 
   // data is cleared on file change so this is null during any fetch and setSelectedSegmentIndex is set to 0, so there is no risk of undefined here
-  const sidebarData = data.length > 0 ? data[selectedSegmentIndex] : null;
+  const sidebarData =
+    data.length > 0 && selectedSegmentIndex !== null
+      ? data[selectedSegmentIndex]
+      : null;
 
   return (
     <RouteContext
