@@ -19,7 +19,7 @@ function DepartureTime() {
         max={toDateTimeLocal(sevenDaysFromNow)}
         value={toDateTimeLocal(departureTime)}
         onChange={(e) => setDepartureTime(new Date(e.target.value))}
-        className="w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors"
+        className="w-full max-w-full bg-zinc-800/50 border border-zinc-700 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none focus:border-zinc-400 transition-colors"
       />
     </CategoryDiv>
   );

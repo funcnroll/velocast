@@ -42,7 +42,8 @@ function AppInner() {
         </MapContainer>
       </div>
 
-      <div className="w-full lg:w-96 xl:w-md bg-zinc-800 border-t lg:border-t-0 lg:border-l border-zinc-700 p-4 text-white lg:overflow-y-auto lg:h-screen">
+      <div className="w-full lg:w-96 xl:w-md bg-zinc-800 border-t lg:border-t-0 lg:border-l border-zinc-700 p-4 text-white lg:overflow-y-auto lg:h-screen overflow-x-hidden">
+        {" "}
         <GpxInput />
         <DepartureTime />
         <RiderProfile />
