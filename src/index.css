@@ -11,8 +11,6 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
 
 
 
-
-
 /* hide leaflet markers - theyre broken on mobile, but still connected visually via segment separations */
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
