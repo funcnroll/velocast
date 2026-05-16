@@ -7,10 +7,13 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   filter: invert(1) brightness(0.8);
   /* makes it grey */
   cursor: pointer;
-  width: 1rem;
-  height: 1rem;
-  box-sizing: border-box;
+}
 
+
+@media (max-width: 1024px) {
+  input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
 }
 
 
