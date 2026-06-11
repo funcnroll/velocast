@@ -21,8 +21,8 @@ export function useWeatherFetch() {
     if (!etaArr.length) return;
 
     const limiter = new Bottleneck({
-      minTime: 200,
-      maxConcurrent: 5, // 25 requests/s
+      minTime: 300,
+      maxConcurrent: 3,
     });
     let cancelled = false;
 
