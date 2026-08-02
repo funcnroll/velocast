@@ -2,7 +2,7 @@
 
 ![Preview of Velocast](velocast.png)
 
-**Demo:** [velocast.funcnroll.dev](https://velocast.funcnroll.dev)
+**Demo:** [funcnroll.github.io/velocast/](https://funcnroll.github.io/velocast/)
 
 Upload a GPX route, set your departure time, speed, along with your rider profile and get a scored weather forecast for each segment along your route as you'll actually encounter it.
 
