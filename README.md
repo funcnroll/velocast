@@ -1,5 +1,7 @@
 # Velocast
 
+![Preview of Velocast](velocast.png)
+
 **Demo:** [velocast.funcnroll.dev](https://velocast.funcnroll.dev)
 
 Upload a GPX route, set your departure time, speed, along with your rider profile and get a scored weather forecast for each segment along your route as you'll actually encounter it.
@@ -20,7 +22,6 @@ Standard weather apps show conditions for one location at one time. For a long r
 
 - **Coordinate system handling** — Turf.js, GeoJSON, Leaflet, and Open-Meteo each handle coordinates differently (GeoJSON/Turf use `[lng, lat]`, Leaflet expects `[lat, lng]`, Open-Meteo takes separate query params). Coordinates are stored internally in GeoJSON order and flipped only at the boundary where they're handed off to Leaflet or the weather API — mixing these up silently produces wrong map positions and incorrect forecasts with no obvious error.
 
-
 ## Stack
 
 React, TypeScript, Vite, Leaflet, Tailwind CSS, Turf.js, Open-Meteo API, Bottleneck, date-fns, react-hot-toast, useHooks
@@ -28,4 +29,3 @@ React, TypeScript, Vite, Leaflet, Tailwind CSS, Turf.js, Open-Meteo API, Bottlen
 ## Notes
 
 Core logic (GPX processing, rate limiting, weather scoring) written by hand. UI and minor refactors assisted by Claude (Anthropic).
-
