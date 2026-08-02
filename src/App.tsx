@@ -48,6 +48,18 @@ function AppInner() {
         <RiderProfile />
         <SpeedInput />
         <ShowWeather />
+        <a
+          href={`${import.meta.env.BASE_URL}privacy.html`}
+          style={{
+            display: "block",
+            textAlign: "center",
+            textDecoration: "underline",
+            fontSize: "0.75rem",
+            marginTop: "1rem",
+          }}
+        >
+          Privacy
+        </a>
       </div>
     </div>
   );

@@ -20,7 +20,9 @@ export function useGpxInput() {
 
   async function handleLoadTemplate() {
     try {
-      const response = await fetch("/templateMap.gpx");
+      const response = await fetch(
+        `${import.meta.env.BASE_URL}templateMap.gpx`,
+      );
 
       if (!response.ok) {
         setError("Failed to load template GPX");
