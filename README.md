@@ -6,11 +6,10 @@
 
 Upload a GPX route, set your departure time, speed, along with your rider profile and get a scored weather forecast for each segment along your route as you'll actually encounter it.
 
-Built because existing tools either sit behind a paywall or surface raw data without telling you whether conditions are actually worth riding in.
-
 ## Why I Built This
 
 Standard weather apps show conditions for one location at one time. For a long ride that crosses different terrain over several hours, that's not useful. Velocast answers another, more relevant question: what will the weather actually be like when I'm at that specific point on the route?
+Built because existing tools either sit behind a paywall or surface raw data without telling you whether conditions are actually worth riding in. This app specifically was made to give an assessment based on the raw data for free.
 
 ## How It Works
 
