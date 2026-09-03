@@ -33,9 +33,9 @@ function AppInner() {
           style={{ width: "100%", height: "100%" }}
         >
           <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-            maxZoom={19}
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            attribution="Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ"
+            maxZoom={16}
           />
           {gpxUrl && <GpxLayer />}
           <MapWeatherWaypoints />
