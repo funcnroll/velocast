@@ -33,6 +33,6 @@ React, TypeScript, Vite, Leaflet, Tailwind CSS, Turf.js, Open-Meteo API, Bottlen
 
 ## Notes
 
-Core logic (GPX processing, rate limiting, weather scoring) written by hand. UI and minor refactors assisted by Claude (Anthropic).
+Core logic (GPX processing, rate limiting, weather scoring) written by hand. UI, minor refactors and comment wording assisted by Claude (Anthropic).
 
 This write-up expands on a detailed description originally presented elsewhere, now moved here.
